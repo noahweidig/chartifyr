@@ -1,0 +1,12 @@
+---
+title: "Welcome To ChartifyR"
+author: "Noah Weidig"
+date: "2025-02-10"
+categories: [news]
+image: "images/tidyverse-01.png"
+description: "Introducing ChartifyR — a space for sharing data science and visualization techniques using R and the tidyverse."
+---
+
+I'm excited to share my knowledge of data science and visualization using R, specifically the `tidyverse` suite of packages, as well as other languages and tools.
+
+[![Artwork by \@allison_horst](images/tidyverse-01.png)](https://twitter.com/allison_horst)

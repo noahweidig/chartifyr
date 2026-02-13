@@ -1,0 +1,21 @@
+---
+title: "ChartifyR"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  feed: true
+  date-format: "MMM D, YYYY"
+  fields: [image, date, title, subtitle, categories, description, reading-time]
+page-layout: full
+title-block-banner: true
+---
+
+::: {.hero-intro}
+### ✨ R, Data Viz, and Ecological Storytelling
+
+Hands-on tutorials for building publication-ready charts, maps, and data pipelines in R — from `ggplot2` and `sf` to tidy data wrangling. Browse recent posts or filter by category to find what you need.
+:::

@@ -1,0 +1,12 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/data-cleaning-tidyr-stringr/index.html",
+      "/posts/dplyr-basics/index.html",
+      "/posts/maps-ggplot-sf/index.html",
+      "/posts/ggplot-basics/index.html",
+      "/posts/welcome/index.html"
+    ]
+  }
+]

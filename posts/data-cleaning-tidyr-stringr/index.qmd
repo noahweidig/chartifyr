@@ -1,0 +1,349 @@
+---
+title: "Data Cleaning in the Real World"
+subtitle: "From messy CSVs to analysis-ready tables with tidyr and stringr"
+execute:
+  warning: false
+author: "Noah Weidig"
+date: "2025-02-22"
+categories: [code, tidyverse]
+image: "images/tidyr.jpg"
+description: "Learn how to reshape, split, and clean messy data using tidyr and stringr — pivoting, separating columns, pattern matching, and handling common gotchas."
+toc: true
+toc-depth: 2
+code-fold: show
+---
+
+[![Artwork by \@allison_horst](images/tidyr.jpg)](https://twitter.com/allison_horst)
+
+You know the drill. Someone hands you a spreadsheet with columns like `cases_2019`, `cases_2020`, `cases_2021`, values crammed into single cells, and mysterious `NA`s scattered everywhere. Before you can analyze anything, you need to *clean* it. This is where `tidyr` and `stringr` come in — and where most of your time as a data analyst actually goes.
+
+This tutorial builds directly on [Basics of dplyr](../dplyr-basics/index.qmd). If you're comfortable with `filter()`, `mutate()`, and the pipe, you're ready.
+
+# Setup
+
+```{r}
+library(tidyverse)
+```
+
+We'll use two built-in datasets throughout this post:
+
+- **`who2`** — World Health Organization tuberculosis data (comes with `tidyr`). Wide, messy, and realistic.
+- **`starwars`** — Character data from the Star Wars films (comes with `dplyr`). Has strings to clean and list-columns to untangle.
+
+```{r}
+who2
+```
+
+```{r}
+starwars |> select(name, height, mass, skin_color, homeworld)
+```
+
+# Reshaping with pivot_longer()
+
+The most common mess you'll run into is data that's *wide* when it should be *long*. The `who2` dataset is a textbook example — it has separate columns for every combination of diagnosis method, sex, and age group.
+
+```{r}
+who2 |> colnames() |> head(20)
+```
+
+Each of those `sp_m_014`, `sp_f_1524` columns encodes three variables in a single column name. That's not tidy. Let's pivot.
+
+```{r}
+who_long <- who2 |>
+  pivot_longer(
+    cols = !c(country, year),
+    names_to = "category",
+    values_to = "count",
+    values_drop_na = TRUE
+  )
+
+who_long
+```
+
+The `values_drop_na = TRUE` argument quietly drops all the rows where count is `NA`. Without it, you'd end up with thousands of empty rows — a common gotcha that balloons your data for no reason.
+
+## Pivoting with names_sep
+
+Those `category` values still pack three pieces of information into one string. We can split them during the pivot itself.
+
+```{r}
+who_tidy <- who2 |>
+  pivot_longer(
+    cols = !c(country, year),
+    names_to = c("diagnosis", "sex", "age_group"),
+    names_sep = "_",
+    values_to = "count",
+    values_drop_na = TRUE
+  )
+
+who_tidy
+```
+
+One call and we went from a 56-column mess to a clean, long-format table with clearly named variables. That's the power of `pivot_longer()`.
+
+# Going wide with pivot_wider()
+
+Sometimes you need the opposite — spreading long data into a wider format for summary tables or specific analyses. Let's say we want a quick comparison table of total TB cases by diagnosis method and sex.
+
+```{r}
+who_tidy |>
+  group_by(diagnosis, sex) |>
+  summarize(total = sum(count), .groups = "drop") |>
+  pivot_wider(
+    names_from = sex,
+    values_from = total
+  )
+```
+
+`pivot_wider()` is the inverse of `pivot_longer()`. You'll reach for it less often, but it's essential for creating cross-tabulations and reporting tables.
+
+# Splitting and combining columns
+
+## separate_wider_delim()
+
+Sometimes a single column contains multiple values separated by a delimiter. Let's manufacture a quick example to see `separate_wider_delim()` in action.
+
+```{r}
+messy_locations <- tibble(
+  id = 1:4,
+  location = c("USA-New York", "CAN-Toronto", "GBR-London", "AUS-Sydney")
+)
+
+messy_locations |>
+  separate_wider_delim(
+    location,
+    delim = "-",
+    names = c("country_code", "city")
+  )
+```
+
+This cleanly splits one column into two. If the number of pieces isn't consistent across rows, use `too_few` and `too_many` to control the behavior:
+
+```{r}
+tricky <- tibble(
+  id = 1:3,
+  value = c("A-B-C", "D-E", "F-G-H-I")
+)
+
+tricky |>
+  separate_wider_delim(
+    value,
+    delim = "-",
+    names = c("first", "second", "third"),
+    too_few = "align_start",
+    too_many = "merge"
+  )
+```
+
+The `too_few = "align_start"` fills missing pieces with `NA` from the right. The `too_many = "merge"` lumps extra pieces into the last column. This keeps your pipeline from crashing on messy, inconsistent data.
+
+## unite()
+
+`unite()` is the reverse — gluing columns together.
+
+```{r}
+who_tidy |>
+  unite("demographic", sex, age_group, sep = "_") |>
+  select(country, year, diagnosis, demographic, count) |>
+  head()
+```
+
+This is handy when you need to create an interaction label for plotting or joining.
+
+# String manipulation with stringr
+
+Real-world data is full of inconsistent text. The `stringr` package gives you a consistent set of functions (all starting with `str_`) for detecting, extracting, and replacing patterns.
+
+## str_detect() — finding patterns
+
+`str_detect()` returns `TRUE` or `FALSE`, making it perfect inside `filter()`.
+
+```{r}
+# Which Star Wars characters have "Skywalker" in their name?
+starwars |>
+  filter(str_detect(name, "Skywalker"))
+```
+
+```{r}
+# Find characters with multiple skin colors (contain a comma)
+starwars |>
+  filter(str_detect(skin_color, ",")) |>
+  select(name, skin_color)
+```
+
+## str_replace() and str_replace_all()
+
+`str_replace()` swaps the first match; `str_replace_all()` swaps every match. This is essential for cleaning up inconsistent labels.
+
+```{r}
+starwars |>
+  mutate(skin_color = str_replace_all(skin_color, ", ", "/")) |>
+  filter(str_detect(skin_color, "/")) |>
+  select(name, skin_color)
+```
+
+A common use case: standardizing messy category labels.
+
+```{r}
+raw_labels <- c("United States", "united states", "US", "U.S.", "usa")
+
+raw_labels |>
+  str_to_lower() |>
+  str_replace_all(c(
+    "^us$"      = "united states",
+    "^u\\.s\\.$" = "united states",
+    "^usa$"      = "united states"
+  ))
+```
+
+## str_extract() — pulling out pieces
+
+`str_extract()` grabs the first matching portion of a string. Let's pull the numeric age boundaries from our cleaned WHO data.
+
+```{r}
+who_tidy |>
+  mutate(
+    age_start = str_extract(age_group, "^\\d+") |> as.integer()
+  ) |>
+  distinct(age_group, age_start) |>
+  arrange(age_start)
+```
+
+## str_trim() and str_squish()
+
+Whitespace is the silent killer of joins and group-bys. Two rows that *look* identical can fail to match because one has a trailing space.
+
+```{r}
+messy_names <- c("  Alice ", "Bob", " Charlie  ", "  Alice")
+
+# str_trim removes leading/trailing whitespace
+str_trim(messy_names)
+
+# str_squish also collapses internal whitespace
+str_squish("  too   many   spaces  ")
+```
+
+Always trim your strings before joining or grouping. This one habit will save you hours of debugging.
+
+# Common gotchas
+
+## Factor explosions
+
+When you read a CSV, character columns sometimes get read as factors. This means `levels()` bakes in the exact set of unique values. If you then `filter()` down to a subset, the unused levels stick around as ghosts — inflating your legend in plots, adding empty groups in summaries, and generally causing confusion.
+
+```{r}
+# Simulate the problem
+species_factor <- factor(c("cat", "dog", "bird", "cat", "dog"))
+filtered <- species_factor[species_factor != "bird"]
+
+# "bird" is gone from the data but still in the levels
+levels(filtered)
+
+# Fix: drop unused levels
+levels(droplevels(filtered))
+```
+
+The lesson: use `droplevels()` after filtering factor data, or better yet, keep text as character columns with `stringsAsFactors = FALSE` (the default since R 4.0) and convert to factors only when you need explicit ordering.
+
+## NA handling
+
+Missing values propagate silently. Any arithmetic with `NA` returns `NA`. Any comparison with `NA` returns `NA`. This means `filter(x == NA)` never returns rows — use `is.na()` instead.
+
+```{r}
+# This returns nothing — NA == NA is NA, not TRUE
+starwars |>
+  filter(mass == NA) |>
+  nrow()
+
+# This is what you actually want
+starwars |>
+  filter(is.na(mass)) |>
+  select(name, mass) |>
+  head()
+```
+
+For summaries, always pass `na.rm = TRUE`.
+
+```{r}
+# Without na.rm — returns NA
+starwars |>
+  summarize(avg_height = mean(height))
+
+# With na.rm — returns the actual mean
+starwars |>
+  summarize(avg_height = mean(height, na.rm = TRUE))
+```
+
+If you want to replace `NA`s with a default value, use `replace_na()` from tidyr.
+
+```{r}
+starwars |>
+  mutate(hair_color = replace_na(hair_color, "unknown")) |>
+  count(hair_color, sort = TRUE) |>
+  head()
+```
+
+## Duplicate rows
+
+Before any analysis, always check for duplicates. `distinct()` keeps unique rows, and `get_dupes()` from the `janitor` package can identify which rows are repeated. Here's the tidyverse approach:
+
+```{r}
+who_tidy |>
+  group_by(country, year, diagnosis, sex, age_group) |>
+  filter(n() > 1) |>
+  nrow()
+```
+
+Zero duplicates — good. When you do find them, decide whether to keep the first, last, or aggregate.
+
+# Putting it all together
+
+Let's chain everything into a real pipeline. Starting from the raw `who2` data, we'll clean, reshape, and summarize in one shot.
+
+```{r}
+who2 |>
+  # Reshape: wide to long, splitting column names
+  pivot_longer(
+    cols = !c(country, year),
+    names_to = c("diagnosis", "sex", "age_group"),
+    names_sep = "_",
+    values_to = "count",
+    values_drop_na = TRUE
+  ) |>
+  # Clean: standardize sex labels
+  mutate(
+    sex = str_replace_all(sex, c("m" = "male", "f" = "female")),
+    age_start = str_extract(age_group, "^\\d+") |> as.integer()
+  ) |>
+  # Filter: focus on recent data
+  filter(year >= 2010) |>
+  # Summarize: total cases by country and sex
+  group_by(country, sex) |>
+  summarize(total_cases = sum(count), .groups = "drop") |>
+  # Reshape: make a comparison table
+  pivot_wider(names_from = sex, values_from = total_cases) |>
+  # Sort: highest total burden first
+  mutate(total = male + female) |>
+  arrange(desc(total)) |>
+  head(10)
+```
+
+That's eight operations piped together, and every step reads like a sentence. This kind of pipeline is what your daily R work will actually look like.
+
+# Quick reference
+
+| Function | Package | What it does |
+|----------|---------|-------------|
+| `pivot_longer()` | tidyr | Reshape wide data to long format |
+| `pivot_wider()` | tidyr | Reshape long data to wide format |
+| `separate_wider_delim()` | tidyr | Split one column into many by delimiter |
+| `unite()` | tidyr | Combine multiple columns into one |
+| `replace_na()` | tidyr | Replace `NA` with a specified value |
+| `str_detect()` | stringr | Test if a pattern exists in a string |
+| `str_replace()` | stringr | Replace first match of a pattern |
+| `str_replace_all()` | stringr | Replace all matches of a pattern |
+| `str_extract()` | stringr | Pull out the first match of a pattern |
+| `str_trim()` | stringr | Remove leading/trailing whitespace |
+| `str_squish()` | stringr | Trim + collapse internal whitespace |
+
+This is the unglamorous core of data analysis — the cleaning that happens before any chart or model. Master these tools and you'll spend less time fighting your data and more time learning from it.

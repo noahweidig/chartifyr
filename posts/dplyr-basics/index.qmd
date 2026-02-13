@@ -1,0 +1,228 @@
+---
+title: "Basics of dplyr"
+subtitle: "A beginners guide to data wrangling in R"
+execute:
+  warning: false
+author: "Noah Weidig"
+date: "2025-02-15"
+categories: [code, dplyr, tidyverse]
+image: "images/dplyr_wrangling.png"
+description: "Learn the core dplyr verbs — filter, select, mutate, arrange, summarize, and group_by — using the Palmer Penguins dataset."
+toc: true
+toc-depth: 2
+code-fold: show
+---
+
+[![Artwork by \@allison_horst](images/dplyr_wrangling.png)](https://twitter.com/allison_horst)
+
+If you've ever worked with messy data in R, you know how painful base R subsetting can be. The `dplyr` package makes data wrangling intuitive and readable. In this tutorial, we'll walk through the six core dplyr verbs using the Palmer Penguins dataset.
+
+# Setup
+
+Let's load the packages we need.
+
+```{r}
+# Uncomment and run these once
+#install.packages("tidyverse")
+#install.packages("palmerpenguins")
+
+library(tidyverse)
+library(palmerpenguins)
+```
+
+Let's take a look at the data.
+
+```{r}
+penguins
+```
+
+We have 344 penguins with 8 variables: species, island, bill measurements, flipper length, body mass, sex, and year.
+
+# The Pipe Operator
+
+Before we dive into the verbs, let's talk about the pipe: `|>` (or `%>%`). The pipe takes the output of one function and passes it as the first argument to the next. This lets us chain operations together in a readable way.
+
+```{r}
+# Without the pipe
+nrow(penguins)
+
+# With the pipe — same result
+penguins |> nrow()
+```
+
+You'll see the pipe used throughout this tutorial. Think of it as saying "and then..."
+
+# filter()
+
+`filter()` keeps rows that match a condition. Let's grab only the Adelie penguins.
+
+```{r}
+penguins |>
+  filter(species == "Adelie")
+```
+
+You can combine multiple conditions. Let's find Adelie penguins that weigh more than 4000 grams.
+
+```{r}
+penguins |>
+  filter(species == "Adelie", body_mass_g > 4000)
+```
+
+Use `|` (or) for either/or conditions.
+
+```{r}
+penguins |>
+  filter(island == "Biscoe" | island == "Dream")
+```
+
+A cleaner way to filter for multiple values is `%in%`.
+
+```{r}
+penguins |>
+  filter(island %in% c("Biscoe", "Dream"))
+```
+
+# select()
+
+`select()` picks specific columns. This is useful when you only need a few variables from a wide dataset.
+
+```{r}
+penguins |>
+  select(species, island, body_mass_g)
+```
+
+You can also remove columns with a minus sign.
+
+```{r}
+penguins |>
+  select(-year)
+```
+
+There are handy helper functions too. `starts_with()` grabs columns that start with a string.
+
+```{r}
+penguins |>
+  select(species, starts_with("bill"))
+```
+
+# mutate()
+
+`mutate()` creates new columns or modifies existing ones. Let's convert body mass from grams to kilograms.
+
+```{r}
+penguins |>
+  mutate(body_mass_kg = body_mass_g / 1000) |>
+  select(species, body_mass_g, body_mass_kg)
+```
+
+You can create multiple columns at once.
+
+```{r}
+penguins |>
+  mutate(
+    body_mass_kg = body_mass_g / 1000,
+    bill_ratio = bill_length_mm / bill_depth_mm
+  ) |>
+  select(species, body_mass_kg, bill_ratio)
+```
+
+# arrange()
+
+`arrange()` sorts rows. By default, it sorts in ascending order.
+
+```{r}
+penguins |>
+  arrange(body_mass_g)
+```
+
+Use `desc()` for descending order.
+
+```{r}
+penguins |>
+  arrange(desc(body_mass_g))
+```
+
+You can sort by multiple columns. This sorts by species first, then by body mass within each species.
+
+```{r}
+penguins |>
+  arrange(species, desc(body_mass_g))
+```
+
+# summarize()
+
+`summarize()` (or `summarise()`) collapses the data into a summary. Let's find the average body mass.
+
+```{r}
+penguins |>
+  summarize(mean_mass = mean(body_mass_g, na.rm = TRUE))
+```
+
+The `na.rm = TRUE` argument tells R to ignore missing values. You can compute multiple summaries at once.
+
+```{r}
+penguins |>
+  summarize(
+    mean_mass = mean(body_mass_g, na.rm = TRUE),
+    sd_mass = sd(body_mass_g, na.rm = TRUE),
+    n = n()
+  )
+```
+
+# group_by()
+
+`group_by()` is where dplyr really shines. It splits the data into groups so that subsequent operations are performed per group. Pair it with `summarize()` for powerful grouped summaries.
+
+```{r}
+penguins |>
+  group_by(species) |>
+  summarize(
+    mean_mass = mean(body_mass_g, na.rm = TRUE),
+    sd_mass = sd(body_mass_g, na.rm = TRUE),
+    n = n()
+  )
+```
+
+You can group by multiple variables.
+
+```{r}
+penguins |>
+  group_by(species, island) |>
+  summarize(
+    mean_mass = mean(body_mass_g, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+```
+
+The `.groups = "drop"` argument ungroups the data after summarizing, which is good practice.
+
+# Putting It All Together
+
+The real power of dplyr is chaining verbs together. Let's find the average flipper length for each species, but only for female penguins weighing over 3500 grams, sorted from longest to shortest.
+
+```{r}
+penguins |>
+  filter(sex == "female", body_mass_g > 3500) |>
+  group_by(species) |>
+  summarize(
+    mean_flipper = mean(flipper_length_mm, na.rm = TRUE),
+    n = n()
+  ) |>
+  arrange(desc(mean_flipper))
+```
+
+Each step is readable on its own, and the pipe makes the full pipeline easy to follow.
+
+# Quick Reference
+
+| Verb | What it does |
+|------|-------------|
+| `filter()` | Keep rows that match a condition |
+| `select()` | Pick or remove columns |
+| `mutate()` | Create or modify columns |
+| `arrange()` | Sort rows |
+| `summarize()` | Collapse data into summaries |
+| `group_by()` | Group data for per-group operations |
+
+And that's it! These six verbs will cover the vast majority of your data wrangling needs. Thanks for reading — keep an eye out for more R tutorials!

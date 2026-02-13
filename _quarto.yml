@@ -1,0 +1,40 @@
+project:
+  type: website
+
+website:
+  title: "ChartifyR"
+  site-url: https://noahweidig.quarto.pub/chartifyr
+  favicon: "chartifyr-logo.svg"
+  margin-header: subscribe.html
+  search:
+    location: navbar
+    type: textbox
+  navbar:
+    logo: "chartifyr-logo.svg"
+    pinned: true
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/noahweidig/
+        aria-label: GitHub
+      - icon: linkedin
+        href: https://linkedin.com/in/noahweidig/
+        aria-label: LinkedIn
+      - icon: rss
+        href: index.xml
+        aria-label: RSS Feed
+  page-footer:
+    left: "Built with [Quarto](https://quarto.org/) by Noah Weidig"
+    right: "&copy; 2026 ChartifyR"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    smooth-scroll: true
+    link-external-newwindow: true
+    code-copy: true
+    code-overflow: wrap
+    highlight-style: github
+
+editor: visual

@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 9789a213-533b-4b03-b9b4-a5d91d6bd8a0
+      url: https://noahweidig.quarto.pub/chartifyr

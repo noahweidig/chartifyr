@@ -1,0 +1,95 @@
+---
+title: "Mapping with ggplot2 and sf"
+subtitle: "A simple guide to creating elegant maps in R"
+execute:
+  warning: false
+author: "Noah Weidig"
+date: "2025-02-14"
+categories: [code, ggplot2, dataviz, sf]
+image: "image.jpg"
+description: "Create beautiful maps in R using ggplot2 and the sf package — from basic polygons to customized choropleth maps with scale bars."
+toc: true
+toc-depth: 2
+code-fold: show
+---
+
+[![Artwork by \@allison_horst](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F077ba65d-1d4e-431d-b719-bda847313d1a_1485x1122.jpeg)](https://twitter.com/allison_horst)
+
+Have you ever made a map in ArcGIS, only to later realize that you made a mistake with your data and will have to remake the entire thing? That's where the `sf` package in R comes in!
+
+# Basic Map
+
+Let's load the sf and tidyverse packages.
+
+```{r}
+# Uncomment and run this only once
+#install.packages("sf")
+library(sf)
+library(tidyverse)
+```
+
+Now, we'll need to load our data. We'll use the North Carolina counties data built into the sf package.
+
+```{r}
+nc <- st_read(system.file("shape/nc.shp", package = "sf"))
+```
+
+Every sf object has a "geometry" column, which stores the coordinates of the point, line, or polygon. Now, let's plot it. The ggplot2 package has a geom_sf option for simple features.
+
+```{r}
+ggplot() + geom_sf(data = nc)
+
+# if that does not work, you may have to specify the geometry in the aesthetic
+ggplot() + geom_sf(data = nc, aes(geometry = geometry))
+```
+
+Not bad. I prefer to not see the latitude/longitude along the axes, so I frequently use `theme_void()`.
+
+```{r}
+ggplot() + geom_sf(data = nc) + theme_void()
+```
+
+# Customization
+
+Great! This dataset has several attributes related to births and infant deaths. We'll use the SID79, which is the number of sudden infant deaths in the year 1979 for each county.
+
+```{r}
+ggplot() + geom_sf(data = nc, aes(fill = SID79)) + theme_void()
+```
+
+The ggplot default colors are not my favorite. I prefer using `brewer` colors. The direction argument reverses the direction of color darkening so that darker indicates a higher value.
+
+```{r}
+ggplot() + geom_sf(data = nc, aes(fill = SID79)) + theme_void() +
+  scale_fill_distiller(palette = "YlOrBr", direction = 1)
+```
+
+We can see quite clearly that a few counties in central North Carolina had a large number of sudden infant deaths in 1979. To clean up this map, let's add a scale bar and north arrow (using the `ggspatial` package), and refine the labels.
+
+```{r}
+library(ggspatial)
+
+ggplot() +
+  geom_sf(data = nc, aes(fill = SID79)) +
+  theme_void() +
+  scale_fill_distiller(palette = "YlOrBr", direction = 1) +
+  annotation_scale(location = "bl", line_width = 1) +
+  annotation_north_arrow(style = north_arrow_fancy_orienteering(),
+                         location = "tl",
+                         height = unit(0.8, "cm"),
+                         width = unit(0.8, "cm")) +
+  labs(fill = "SIDS 1979")
+```
+
+Much better! The scale bar and north arrow size can be adjusted as needed. This mostly depends on how large you save the figure. These ggplot objects can be saved the same way as a regular plot.
+
+# Saving the Map
+
+```{r}
+#| eval: false
+ggsave("nc.jpg", width = 5, height = 3, dpi = 300)
+```
+
+And you're done! You've created your first official map in R!
+
+Thanks for joining me. Keep an eye out for more tutorials in R!

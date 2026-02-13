@@ -1,0 +1,21 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  image-shape: round
+  image-width: 12em
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/noahweidig/
+    - icon: github
+      text: GitHub
+      href: https://github.com/noahweidig/
+---
+
+## Hi, I'm Noah
+
+A graduate student, self-proclaimed R enthusiast, and landscape ecologist. Welcome to ChartifyR!
+
+Here, I share insights on R programming, ecological research, and data-driven storytelling. From coding tips to exploring the dynamics of our changing landscapes, this space blends science, analysis, and creativity for curious minds.
