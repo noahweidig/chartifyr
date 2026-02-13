@@ -1,0 +1,3052 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>ChartifyR</title>
+<link>https://chartifyr.quarto.pub/chartifyr/</link>
+<atom:link href="https://chartifyr.quarto.pub/chartifyr/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.6.32</generator>
+<lastBuildDate>Sat, 22 Feb 2025 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Data Cleaning in the Real World</title>
+  <dc:creator>Noah Weidig</dc:creator>
+  <link>https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<figcaption>Artwork by @allison_horst</figcaption>
+</figure>
+</div>
+<p>You know the drill. Someone hands you a spreadsheet with columns like <code>cases_2019</code>, <code>cases_2020</code>, <code>cases_2021</code>, values crammed into single cells, and mysterious <code>NA</code>s scattered everywhere. Before you can analyze anything, you need to <em>clean</em> it. This is where <code>tidyr</code> and <code>stringr</code> come in — and where most of your time as a data analyst actually goes.</p>
+<p>This tutorial builds directly on <a href="../../posts/dplyr-basics/index.html">Basics of dplyr</a>. If you’re comfortable with <code>filter()</code>, <code>mutate()</code>, and the pipe, you’re ready.</p>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
+</details>
+</div>
+<p>We’ll use two built-in datasets throughout this post:</p>
+<ul>
+<li><strong><code>who2</code></strong> — World Health Organization tuberculosis data (comes with <code>tidyr</code>). Wide, messy, and realistic.</li>
+<li><strong><code>starwars</code></strong> — Character data from the Star Wars films (comes with <code>dplyr</code>). Has strings to clean and list-columns to untangle.</li>
+</ul>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">who2</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7,240 × 58
+   country      year sp_m_014 sp_m_1524 sp_m_2534 sp_m_3544 sp_m_4554 sp_m_5564
+   &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Afghanistan  1980       NA        NA        NA        NA        NA        NA
+ 2 Afghanistan  1981       NA        NA        NA        NA        NA        NA
+ 3 Afghanistan  1982       NA        NA        NA        NA        NA        NA
+ 4 Afghanistan  1983       NA        NA        NA        NA        NA        NA
+ 5 Afghanistan  1984       NA        NA        NA        NA        NA        NA
+ 6 Afghanistan  1985       NA        NA        NA        NA        NA        NA
+ 7 Afghanistan  1986       NA        NA        NA        NA        NA        NA
+ 8 Afghanistan  1987       NA        NA        NA        NA        NA        NA
+ 9 Afghanistan  1988       NA        NA        NA        NA        NA        NA
+10 Afghanistan  1989       NA        NA        NA        NA        NA        NA
+# ℹ 7,230 more rows
+# ℹ 50 more variables: sp_m_65 &lt;dbl&gt;, sp_f_014 &lt;dbl&gt;, sp_f_1524 &lt;dbl&gt;,
+#   sp_f_2534 &lt;dbl&gt;, sp_f_3544 &lt;dbl&gt;, sp_f_4554 &lt;dbl&gt;, sp_f_5564 &lt;dbl&gt;,
+#   sp_f_65 &lt;dbl&gt;, sn_m_014 &lt;dbl&gt;, sn_m_1524 &lt;dbl&gt;, sn_m_2534 &lt;dbl&gt;,
+#   sn_m_3544 &lt;dbl&gt;, sn_m_4554 &lt;dbl&gt;, sn_m_5564 &lt;dbl&gt;, sn_m_65 &lt;dbl&gt;,
+#   sn_f_014 &lt;dbl&gt;, sn_f_1524 &lt;dbl&gt;, sn_f_2534 &lt;dbl&gt;, sn_f_3544 &lt;dbl&gt;,
+#   sn_f_4554 &lt;dbl&gt;, sn_f_5564 &lt;dbl&gt;, sn_f_65 &lt;dbl&gt;, ep_m_014 &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(name, height, mass, skin_color, homeworld)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 87 × 5
+   name               height  mass skin_color  homeworld
+   &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    
+ 1 Luke Skywalker        172    77 fair        Tatooine 
+ 2 C-3PO                 167    75 gold        Tatooine 
+ 3 R2-D2                  96    32 white, blue Naboo    
+ 4 Darth Vader           202   136 white       Tatooine 
+ 5 Leia Organa           150    49 light       Alderaan 
+ 6 Owen Lars             178   120 light       Tatooine 
+ 7 Beru Whitesun Lars    165    75 light       Tatooine 
+ 8 R5-D4                  97    32 white, red  Tatooine 
+ 9 Biggs Darklighter     183    84 light       Tatooine 
+10 Obi-Wan Kenobi        182    77 fair        Stewjon  
+# ℹ 77 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="reshaping-with-pivot_longer" class="level1">
+<h1>Reshaping with pivot_longer()</h1>
+<p>The most common mess you’ll run into is data that’s <em>wide</em> when it should be <em>long</em>. The <code>who2</code> dataset is a textbook example — it has separate columns for every combination of diagnosis method, sex, and age group.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">who2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">colnames</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "country"   "year"      "sp_m_014"  "sp_m_1524" "sp_m_2534" "sp_m_3544"
+ [7] "sp_m_4554" "sp_m_5564" "sp_m_65"   "sp_f_014"  "sp_f_1524" "sp_f_2534"
+[13] "sp_f_3544" "sp_f_4554" "sp_f_5564" "sp_f_65"   "sn_m_014"  "sn_m_1524"
+[19] "sn_m_2534" "sn_m_3544"</code></pre>
+</div>
+</div>
+<p>Each of those <code>sp_m_014</code>, <code>sp_f_1524</code> columns encodes three variables in a single column name. That’s not tidy. Let’s pivot.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">who_long <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> who2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb8-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pivot_longer</span>(</span>
+<span id="cb8-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">cols =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(country, year),</span>
+<span id="cb8-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_to =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"category"</span>,</span>
+<span id="cb8-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_to =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"count"</span>,</span>
+<span id="cb8-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_drop_na =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span></span>
+<span id="cb8-7">  )</span>
+<span id="cb8-8"></span>
+<span id="cb8-9">who_long</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 76,046 × 4
+   country      year category  count
+   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+ 1 Afghanistan  1997 sp_m_014      0
+ 2 Afghanistan  1997 sp_m_1524    10
+ 3 Afghanistan  1997 sp_m_2534     6
+ 4 Afghanistan  1997 sp_m_3544     3
+ 5 Afghanistan  1997 sp_m_4554     5
+ 6 Afghanistan  1997 sp_m_5564     2
+ 7 Afghanistan  1997 sp_m_65       0
+ 8 Afghanistan  1997 sp_f_014      5
+ 9 Afghanistan  1997 sp_f_1524    38
+10 Afghanistan  1997 sp_f_2534    36
+# ℹ 76,036 more rows</code></pre>
+</div>
+</div>
+<p>The <code>values_drop_na = TRUE</code> argument quietly drops all the rows where count is <code>NA</code>. Without it, you’d end up with thousands of empty rows — a common gotcha that balloons your data for no reason.</p>
+<section id="pivoting-with-names_sep" class="level2">
+<h2 class="anchored" data-anchor-id="pivoting-with-names_sep">Pivoting with names_sep</h2>
+<p>Those <code>category</code> values still pack three pieces of information into one string. We can split them during the pivot itself.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">who_tidy <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> who2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb10-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pivot_longer</span>(</span>
+<span id="cb10-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">cols =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(country, year),</span>
+<span id="cb10-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_to =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"diagnosis"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sex"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"age_group"</span>),</span>
+<span id="cb10-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_sep =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_"</span>,</span>
+<span id="cb10-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_to =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"count"</span>,</span>
+<span id="cb10-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_drop_na =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span></span>
+<span id="cb10-8">  )</span>
+<span id="cb10-9"></span>
+<span id="cb10-10">who_tidy</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 76,046 × 6
+   country      year diagnosis sex   age_group count
+   &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
+ 1 Afghanistan  1997 sp        m     014           0
+ 2 Afghanistan  1997 sp        m     1524         10
+ 3 Afghanistan  1997 sp        m     2534          6
+ 4 Afghanistan  1997 sp        m     3544          3
+ 5 Afghanistan  1997 sp        m     4554          5
+ 6 Afghanistan  1997 sp        m     5564          2
+ 7 Afghanistan  1997 sp        m     65            0
+ 8 Afghanistan  1997 sp        f     014           5
+ 9 Afghanistan  1997 sp        f     1524         38
+10 Afghanistan  1997 sp        f     2534         36
+# ℹ 76,036 more rows</code></pre>
+</div>
+</div>
+<p>One call and we went from a 56-column mess to a clean, long-format table with clearly named variables. That’s the power of <code>pivot_longer()</code>.</p>
+</section>
+</section>
+<section id="going-wide-with-pivot_wider" class="level1">
+<h1>Going wide with pivot_wider()</h1>
+<p>Sometimes you need the opposite — spreading long data into a wider format for summary tables or specific analyses. Let’s say we want a quick comparison table of total TB cases by diagnosis method and sex.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">who_tidy <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb12-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(diagnosis, sex) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb12-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">total =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sum</span>(count), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.groups =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"drop"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb12-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pivot_wider</span>(</span>
+<span id="cb12-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_from =</span> sex,</span>
+<span id="cb12-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_from =</span> total</span>
+<span id="cb12-7">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  diagnosis        f        m
+  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+1 ep          941880  1044299
+2 rel        1201596  2018976
+3 sn         2439139  3840388
+4 sp        11324409 20586831</code></pre>
+</div>
+</div>
+<p><code>pivot_wider()</code> is the inverse of <code>pivot_longer()</code>. You’ll reach for it less often, but it’s essential for creating cross-tabulations and reporting tables.</p>
+</section>
+<section id="splitting-and-combining-columns" class="level1">
+<h1>Splitting and combining columns</h1>
+<section id="separate_wider_delim" class="level2">
+<h2 class="anchored" data-anchor-id="separate_wider_delim">separate_wider_delim()</h2>
+<p>Sometimes a single column contains multiple values separated by a delimiter. Let’s manufacture a quick example to see <code>separate_wider_delim()</code> in action.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">messy_locations <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb14-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>,</span>
+<span id="cb14-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">location =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"USA-New York"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CAN-Toronto"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GBR-London"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"AUS-Sydney"</span>)</span>
+<span id="cb14-4">)</span>
+<span id="cb14-5"></span>
+<span id="cb14-6">messy_locations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb14-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">separate_wider_delim</span>(</span>
+<span id="cb14-8">    location,</span>
+<span id="cb14-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">delim =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"-"</span>,</span>
+<span id="cb14-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"country_code"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"city"</span>)</span>
+<span id="cb14-11">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+     id country_code city    
+  &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;   
+1     1 USA          New York
+2     2 CAN          Toronto 
+3     3 GBR          London  
+4     4 AUS          Sydney  </code></pre>
+</div>
+</div>
+<p>This cleanly splits one column into two. If the number of pieces isn’t consistent across rows, use <code>too_few</code> and <code>too_many</code> to control the behavior:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">tricky <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb16-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,</span>
+<span id="cb16-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A-B-C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D-E"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F-G-H-I"</span>)</span>
+<span id="cb16-4">)</span>
+<span id="cb16-5"></span>
+<span id="cb16-6">tricky <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb16-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">separate_wider_delim</span>(</span>
+<span id="cb16-8">    value,</span>
+<span id="cb16-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">delim =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"-"</span>,</span>
+<span id="cb16-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"first"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"second"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"third"</span>),</span>
+<span id="cb16-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">too_few =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"align_start"</span>,</span>
+<span id="cb16-12">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">too_many =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"merge"</span></span>
+<span id="cb16-13">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+     id first second third
+  &lt;int&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;
+1     1 A     B      C    
+2     2 D     E      &lt;NA&gt; 
+3     3 F     G      H-I  </code></pre>
+</div>
+</div>
+<p>The <code>too_few = "align_start"</code> fills missing pieces with <code>NA</code> from the right. The <code>too_many = "merge"</code> lumps extra pieces into the last column. This keeps your pipeline from crashing on messy, inconsistent data.</p>
+</section>
+<section id="unite" class="level2">
+<h2 class="anchored" data-anchor-id="unite">unite()</h2>
+<p><code>unite()</code> is the reverse — gluing columns together.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">who_tidy <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unite</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"demographic"</span>, sex, age_group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sep =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(country, year, diagnosis, demographic, count) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>()</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  country      year diagnosis demographic count
+  &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;
+1 Afghanistan  1997 sp        m_014           0
+2 Afghanistan  1997 sp        m_1524         10
+3 Afghanistan  1997 sp        m_2534          6
+4 Afghanistan  1997 sp        m_3544          3
+5 Afghanistan  1997 sp        m_4554          5
+6 Afghanistan  1997 sp        m_5564          2</code></pre>
+</div>
+</div>
+<p>This is handy when you need to create an interaction label for plotting or joining.</p>
+</section>
+</section>
+<section id="string-manipulation-with-stringr" class="level1">
+<h1>String manipulation with stringr</h1>
+<p>Real-world data is full of inconsistent text. The <code>stringr</code> package gives you a consistent set of functions (all starting with <code>str_</code>) for detecting, extracting, and replacing patterns.</p>
+<section id="str_detect-finding-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="str_detect-finding-patterns">str_detect() — finding patterns</h2>
+<p><code>str_detect()</code> returns <code>TRUE</code> or <code>FALSE</code>, making it perfect inside <code>filter()</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Which Star Wars characters have "Skywalker" in their name?</span></span>
+<span id="cb20-2">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb20-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(name, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Skywalker"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 14
+  name      height  mass hair_color skin_color eye_color birth_year sex   gender
+  &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+1 Luke Sky…    172    77 blond      fair       blue            19   male  mascu…
+2 Anakin S…    188    84 blond      fair       blue            41.9 male  mascu…
+3 Shmi Sky…    163    NA black      fair       brown           72   fema… femin…
+# ℹ 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+#   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Find characters with multiple skin colors (contain a comma)</span></span>
+<span id="cb22-2">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb22-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(skin_color, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">","</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb22-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 2
+   name                  skin_color         
+   &lt;chr&gt;                 &lt;chr&gt;              
+ 1 R2-D2                 white, blue        
+ 2 R5-D4                 white, red         
+ 3 Jabba Desilijic Tiure green-tan, brown   
+ 4 Watto                 blue, grey         
+ 5 Sebulba               grey, red          
+ 6 Ratts Tyerel          grey, blue         
+ 7 Dud Bolt              blue, grey         
+ 8 Gasgano               white, blue        
+ 9 Ben Quadinaros        grey, green, yellow
+10 Zam Wesell            fair, green, yellow
+11 R4-P17                silver, red        
+12 Wat Tambor            green, grey        
+13 Shaak Ti              red, blue, white   
+14 Grievous              brown, white       </code></pre>
+</div>
+</div>
+</section>
+<section id="str_replace-and-str_replace_all" class="level2">
+<h2 class="anchored" data-anchor-id="str_replace-and-str_replace_all">str_replace() and str_replace_all()</h2>
+<p><code>str_replace()</code> swaps the first match; <code>str_replace_all()</code> swaps every match. This is essential for cleaning up inconsistent labels.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb24-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">skin_color =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_replace_all</span>(skin_color, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">", "</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb24-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_detect</span>(skin_color, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb24-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 2
+   name                  skin_color       
+   &lt;chr&gt;                 &lt;chr&gt;            
+ 1 R2-D2                 white/blue       
+ 2 R5-D4                 white/red        
+ 3 Jabba Desilijic Tiure green-tan/brown  
+ 4 Watto                 blue/grey        
+ 5 Sebulba               grey/red         
+ 6 Ratts Tyerel          grey/blue        
+ 7 Dud Bolt              blue/grey        
+ 8 Gasgano               white/blue       
+ 9 Ben Quadinaros        grey/green/yellow
+10 Zam Wesell            fair/green/yellow
+11 R4-P17                silver/red       
+12 Wat Tambor            green/grey       
+13 Shaak Ti              red/blue/white   
+14 Grievous              brown/white      </code></pre>
+</div>
+</div>
+<p>A common use case: standardizing messy category labels.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">raw_labels <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"United States"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"united states"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"US"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"U.S."</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"usa"</span>)</span>
+<span id="cb26-2"></span>
+<span id="cb26-3">raw_labels <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb26-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_to_lower</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb26-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_replace_all</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(</span>
+<span id="cb26-6">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^us$"</span>      <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"united states"</span>,</span>
+<span id="cb26-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^u</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.s</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">.$"</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"united states"</span>,</span>
+<span id="cb26-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^usa$"</span>      <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"united states"</span></span>
+<span id="cb26-9">  ))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "united states" "united states" "united states" "united states"
+[5] "united states"</code></pre>
+</div>
+</div>
+</section>
+<section id="str_extract-pulling-out-pieces" class="level2">
+<h2 class="anchored" data-anchor-id="str_extract-pulling-out-pieces">str_extract() — pulling out pieces</h2>
+<p><code>str_extract()</code> grabs the first matching portion of a string. Let’s pull the numeric age boundaries from our cleaned WHO data.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">who_tidy <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb28-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(</span>
+<span id="cb28-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">age_start =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_extract</span>(age_group, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d+"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.integer</span>()</span>
+<span id="cb28-4">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb28-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">distinct</span>(age_group, age_start) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb28-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(age_start)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+  age_group age_start
+  &lt;chr&gt;         &lt;int&gt;
+1 014              14
+2 65               65
+3 1524           1524
+4 2534           2534
+5 3544           3544
+6 4554           4554
+7 5564           5564</code></pre>
+</div>
+</div>
+</section>
+<section id="str_trim-and-str_squish" class="level2">
+<h2 class="anchored" data-anchor-id="str_trim-and-str_squish">str_trim() and str_squish()</h2>
+<p>Whitespace is the silent killer of joins and group-bys. Two rows that <em>look</em> identical can fail to match because one has a trailing space.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">messy_names <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"  Alice "</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bob"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">" Charlie  "</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"  Alice"</span>)</span>
+<span id="cb30-2"></span>
+<span id="cb30-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># str_trim removes leading/trailing whitespace</span></span>
+<span id="cb30-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_trim</span>(messy_names)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Alice"   "Bob"     "Charlie" "Alice"  </code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># str_squish also collapses internal whitespace</span></span>
+<span id="cb32-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_squish</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"  too   many   spaces  "</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "too many spaces"</code></pre>
+</div>
+</div>
+<p>Always trim your strings before joining or grouping. This one habit will save you hours of debugging.</p>
+</section>
+</section>
+<section id="common-gotchas" class="level1">
+<h1>Common gotchas</h1>
+<section id="factor-explosions" class="level2">
+<h2 class="anchored" data-anchor-id="factor-explosions">Factor explosions</h2>
+<p>When you read a CSV, character columns sometimes get read as factors. This means <code>levels()</code> bakes in the exact set of unique values. If you then <code>filter()</code> down to a subset, the unused levels stick around as ghosts — inflating your legend in plots, adding empty groups in summaries, and generally causing confusion.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Simulate the problem</span></span>
+<span id="cb34-2">species_factor <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cat"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dog"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bird"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cat"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dog"</span>))</span>
+<span id="cb34-3">filtered <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> species_factor[species_factor <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bird"</span>]</span>
+<span id="cb34-4"></span>
+<span id="cb34-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># "bird" is gone from the data but still in the levels</span></span>
+<span id="cb34-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">levels</span>(filtered)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "bird" "cat"  "dog" </code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Fix: drop unused levels</span></span>
+<span id="cb36-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">levels</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">droplevels</span>(filtered))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "cat" "dog"</code></pre>
+</div>
+</div>
+<p>The lesson: use <code>droplevels()</code> after filtering factor data, or better yet, keep text as character columns with <code>stringsAsFactors = FALSE</code> (the default since R 4.0) and convert to factors only when you need explicit ordering.</p>
+</section>
+<section id="na-handling" class="level2">
+<h2 class="anchored" data-anchor-id="na-handling">NA handling</h2>
+<p>Missing values propagate silently. Any arithmetic with <code>NA</code> returns <code>NA</code>. Any comparison with <code>NA</code> returns <code>NA</code>. This means <code>filter(x == NA)</code> never returns rows — use <code>is.na()</code> instead.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This returns nothing — NA == NA is NA, not TRUE</span></span>
+<span id="cb38-2">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb38-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(mass <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NA</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb38-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>()</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This is what you actually want</span></span>
+<span id="cb40-2">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">is.na</span>(mass)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(name, mass) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>()</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  name            mass
+  &lt;chr&gt;          &lt;dbl&gt;
+1 Wilhuff Tarkin    NA
+2 Mon Mothma        NA
+3 Arvel Crynyd      NA
+4 Finis Valorum     NA
+5 Rugor Nass        NA
+6 Ric Olié          NA</code></pre>
+</div>
+</div>
+<p>For summaries, always pass <code>na.rm = TRUE</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Without na.rm — returns NA</span></span>
+<span id="cb42-2">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb42-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">avg_height =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(height))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  avg_height
+       &lt;dbl&gt;
+1         NA</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># With na.rm — returns the actual mean</span></span>
+<span id="cb44-2">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb44-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">avg_height =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(height, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  avg_height
+       &lt;dbl&gt;
+1       175.</code></pre>
+</div>
+</div>
+<p>If you want to replace <code>NA</code>s with a default value, use <code>replace_na()</code> from tidyr.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1">starwars <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb46-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">hair_color =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">replace_na</span>(hair_color, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"unknown"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb46-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">count</span>(hair_color, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sort =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb46-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>()</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  hair_color     n
+  &lt;chr&gt;      &lt;int&gt;
+1 none          38
+2 brown         18
+3 black         13
+4 unknown        5
+5 white          4
+6 blond          3</code></pre>
+</div>
+</div>
+</section>
+<section id="duplicate-rows" class="level2">
+<h2 class="anchored" data-anchor-id="duplicate-rows">Duplicate rows</h2>
+<p>Before any analysis, always check for duplicates. <code>distinct()</code> keeps unique rows, and <code>get_dupes()</code> from the <code>janitor</code> package can identify which rows are repeated. Here’s the tidyverse approach:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1">who_tidy <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb48-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(country, year, diagnosis, sex, age_group) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb48-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb48-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>()</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Zero duplicates — good. When you do find them, decide whether to keep the first, last, or aggregate.</p>
+</section>
+</section>
+<section id="putting-it-all-together" class="level1">
+<h1>Putting it all together</h1>
+<p>Let’s chain everything into a real pipeline. Starting from the raw <code>who2</code> data, we’ll clean, reshape, and summarize in one shot.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1">who2 <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-2">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reshape: wide to long, splitting column names</span></span>
+<span id="cb50-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pivot_longer</span>(</span>
+<span id="cb50-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">cols =</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(country, year),</span>
+<span id="cb50-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_to =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"diagnosis"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sex"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"age_group"</span>),</span>
+<span id="cb50-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_sep =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"_"</span>,</span>
+<span id="cb50-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_to =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"count"</span>,</span>
+<span id="cb50-8">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_drop_na =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span></span>
+<span id="cb50-9">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-10">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Clean: standardize sex labels</span></span>
+<span id="cb50-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(</span>
+<span id="cb50-12">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sex =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_replace_all</span>(sex, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"m"</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"male"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"f"</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"female"</span>)),</span>
+<span id="cb50-13">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">age_start =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">str_extract</span>(age_group, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">\\</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">d+"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">as.integer</span>()</span>
+<span id="cb50-14">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-15">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Filter: focus on recent data</span></span>
+<span id="cb50-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(year <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2010</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-17">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Summarize: total cases by country and sex</span></span>
+<span id="cb50-18">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(country, sex) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">total_cases =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sum</span>(count), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.groups =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"drop"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-20">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reshape: make a comparison table</span></span>
+<span id="cb50-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pivot_wider</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">names_from =</span> sex, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values_from =</span> total_cases) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-22">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Sort: highest total burden first</span></span>
+<span id="cb50-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">total =</span> male <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> female) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-24">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">desc</span>(total)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb50-25">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">head</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   country                                female    male   total
+   &lt;chr&gt;                                   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 China                                 1059090 2381098 3440188
+ 2 India                                  585702 1316362 1902064
+ 3 South Africa                           593847  669632 1263479
+ 4 Indonesia                              530997  727340 1258337
+ 5 Bangladesh                             243335  399146  642481
+ 6 Pakistan                               206403  206493  412896
+ 7 Russian Federation                     121867  273245  395112
+ 8 Philippines                            111062  262920  373982
+ 9 Democratic People's Republic of Korea  130943  211636  342579
+10 Kenya                                  137336  188480  325816</code></pre>
+</div>
+</div>
+<p>That’s eight operations piped together, and every step reads like a sentence. This kind of pipeline is what your daily R work will actually look like.</p>
+</section>
+<section id="quick-reference" class="level1">
+<h1>Quick reference</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 28%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Package</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pivot_longer()</code></td>
+<td>tidyr</td>
+<td>Reshape wide data to long format</td>
+</tr>
+<tr class="even">
+<td><code>pivot_wider()</code></td>
+<td>tidyr</td>
+<td>Reshape long data to wide format</td>
+</tr>
+<tr class="odd">
+<td><code>separate_wider_delim()</code></td>
+<td>tidyr</td>
+<td>Split one column into many by delimiter</td>
+</tr>
+<tr class="even">
+<td><code>unite()</code></td>
+<td>tidyr</td>
+<td>Combine multiple columns into one</td>
+</tr>
+<tr class="odd">
+<td><code>replace_na()</code></td>
+<td>tidyr</td>
+<td>Replace <code>NA</code> with a specified value</td>
+</tr>
+<tr class="even">
+<td><code>str_detect()</code></td>
+<td>stringr</td>
+<td>Test if a pattern exists in a string</td>
+</tr>
+<tr class="odd">
+<td><code>str_replace()</code></td>
+<td>stringr</td>
+<td>Replace first match of a pattern</td>
+</tr>
+<tr class="even">
+<td><code>str_replace_all()</code></td>
+<td>stringr</td>
+<td>Replace all matches of a pattern</td>
+</tr>
+<tr class="odd">
+<td><code>str_extract()</code></td>
+<td>stringr</td>
+<td>Pull out the first match of a pattern</td>
+</tr>
+<tr class="even">
+<td><code>str_trim()</code></td>
+<td>stringr</td>
+<td>Remove leading/trailing whitespace</td>
+</tr>
+<tr class="odd">
+<td><code>str_squish()</code></td>
+<td>stringr</td>
+<td>Trim + collapse internal whitespace</td>
+</tr>
+</tbody>
+</table>
+<p>This is the unglamorous core of data analysis — the cleaning that happens before any chart or model. Master these tools and you’ll spend less time fighting your data and more time learning from it.</p>
+
+
+<!-- -->
+
+</section>
+
+ ]]></description>
+  <category>code</category>
+  <category>tidyverse</category>
+  <guid>https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/</guid>
+  <pubDate>Sat, 22 Feb 2025 05:00:00 GMT</pubDate>
+  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Basics of dplyr</title>
+  <dc:creator>Noah Weidig</dc:creator>
+  <link>https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<figcaption>Artwork by @allison_horst</figcaption>
+</figure>
+</div>
+<p>If you’ve ever worked with messy data in R, you know how painful base R subsetting can be. The <code>dplyr</code> package makes data wrangling intuitive and readable. In this tutorial, we’ll walk through the six core dplyr verbs using the Palmer Penguins dataset.</p>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<p>Let’s load the packages we need.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Uncomment and run these once</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#install.packages("tidyverse")</span></span>
+<span id="cb1-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#install.packages("palmerpenguins")</span></span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span>
+<span id="cb1-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(palmerpenguins)</span></code></pre></div>
+</details>
+</div>
+<p>Let’s take a look at the data.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">penguins</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>We have 344 penguins with 8 variables: species, island, bill measurements, flipper length, body mass, sex, and year.</p>
+</section>
+<section id="the-pipe-operator" class="level1">
+<h1>The Pipe Operator</h1>
+<p>Before we dive into the verbs, let’s talk about the pipe: <code>|&gt;</code> (or <code>%&gt;%</code>). The pipe takes the output of one function and passes it as the first argument to the next. This lets us chain operations together in a readable way.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Without the pipe</span></span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>(penguins)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># With the pipe — same result</span></span>
+<span id="cb6-2">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>()</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344</code></pre>
+</div>
+</div>
+<p>You’ll see the pipe used throughout this tutorial. Think of it as saying “and then…”</p>
+</section>
+<section id="filter" class="level1">
+<h1>filter()</h1>
+<p><code>filter()</code> keeps rows that match a condition. Let’s grab only the Adelie penguins.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb8-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(species <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Adelie"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 152 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 142 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>You can combine multiple conditions. Let’s find Adelie penguins that weigh more than 4000 grams.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb10-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(species <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Adelie"</span>, body_mass_g <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4000</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 35 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.2          19.6               195        4675
+ 2 Adelie  Torgersen           42            20.2               190        4250
+ 3 Adelie  Torgersen           34.6          21.1               198        4400
+ 4 Adelie  Torgersen           42.5          20.7               197        4500
+ 5 Adelie  Torgersen           46            21.5               194        4200
+ 6 Adelie  Dream               39.2          21.1               196        4150
+ 7 Adelie  Dream               39.8          19.1               184        4650
+ 8 Adelie  Dream               44.1          19.7               196        4400
+ 9 Adelie  Dream               39.6          18.8               190        4600
+10 Adelie  Dream               42.3          21.2               191        4150
+# ℹ 25 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Use <code>|</code> (or) for either/or conditions.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb12-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(island <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Biscoe"</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> island <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dream"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 292 × 8
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Biscoe           37.8          18.3               174        3400
+ 2 Adelie  Biscoe           37.7          18.7               180        3600
+ 3 Adelie  Biscoe           35.9          19.2               189        3800
+ 4 Adelie  Biscoe           38.2          18.1               185        3950
+ 5 Adelie  Biscoe           38.8          17.2               180        3800
+ 6 Adelie  Biscoe           35.3          18.9               187        3800
+ 7 Adelie  Biscoe           40.6          18.6               183        3550
+ 8 Adelie  Biscoe           40.5          17.9               187        3200
+ 9 Adelie  Biscoe           37.9          18.6               172        3150
+10 Adelie  Biscoe           40.5          18.9               180        3950
+# ℹ 282 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>A cleaner way to filter for multiple values is <code>%in%</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb14-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(island <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%in%</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Biscoe"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dream"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 292 × 8
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Biscoe           37.8          18.3               174        3400
+ 2 Adelie  Biscoe           37.7          18.7               180        3600
+ 3 Adelie  Biscoe           35.9          19.2               189        3800
+ 4 Adelie  Biscoe           38.2          18.1               185        3950
+ 5 Adelie  Biscoe           38.8          17.2               180        3800
+ 6 Adelie  Biscoe           35.3          18.9               187        3800
+ 7 Adelie  Biscoe           40.6          18.6               183        3550
+ 8 Adelie  Biscoe           40.5          17.9               187        3200
+ 9 Adelie  Biscoe           37.9          18.6               172        3150
+10 Adelie  Biscoe           40.5          18.9               180        3950
+# ℹ 282 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="select" class="level1">
+<h1>select()</h1>
+<p><code>select()</code> picks specific columns. This is useful when you only need a few variables from a wide dataset.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb16-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(species, island, body_mass_g)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 3
+   species island    body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;int&gt;
+ 1 Adelie  Torgersen        3750
+ 2 Adelie  Torgersen        3800
+ 3 Adelie  Torgersen        3250
+ 4 Adelie  Torgersen          NA
+ 5 Adelie  Torgersen        3450
+ 6 Adelie  Torgersen        3650
+ 7 Adelie  Torgersen        3625
+ 8 Adelie  Torgersen        4675
+ 9 Adelie  Torgersen        3475
+10 Adelie  Torgersen        4250
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<p>You can also remove columns with a minus sign.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>year)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 7
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 1 more variable: sex &lt;fct&gt;</code></pre>
+</div>
+</div>
+<p>There are handy helper functions too. <code>starts_with()</code> grabs columns that start with a string.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb20-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(species, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">starts_with</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bill"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 3
+   species bill_length_mm bill_depth_mm
+   &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+ 1 Adelie            39.1          18.7
+ 2 Adelie            39.5          17.4
+ 3 Adelie            40.3          18  
+ 4 Adelie            NA            NA  
+ 5 Adelie            36.7          19.3
+ 6 Adelie            39.3          20.6
+ 7 Adelie            38.9          17.8
+ 8 Adelie            39.2          19.6
+ 9 Adelie            34.1          18.1
+10 Adelie            42            20.2
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="mutate" class="level1">
+<h1>mutate()</h1>
+<p><code>mutate()</code> creates new columns or modifies existing ones. Let’s convert body mass from grams to kilograms.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb22-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">body_mass_kg =</span> body_mass_g <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb22-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(species, body_mass_g, body_mass_kg)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 3
+   species body_mass_g body_mass_kg
+   &lt;fct&gt;         &lt;int&gt;        &lt;dbl&gt;
+ 1 Adelie         3750         3.75
+ 2 Adelie         3800         3.8 
+ 3 Adelie         3250         3.25
+ 4 Adelie           NA        NA   
+ 5 Adelie         3450         3.45
+ 6 Adelie         3650         3.65
+ 7 Adelie         3625         3.62
+ 8 Adelie         4675         4.68
+ 9 Adelie         3475         3.48
+10 Adelie         4250         4.25
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+<p>You can create multiple columns at once.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb24-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(</span>
+<span id="cb24-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">body_mass_kg =</span> body_mass_g <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>,</span>
+<span id="cb24-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bill_ratio =</span> bill_length_mm <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> bill_depth_mm</span>
+<span id="cb24-5">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb24-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">select</span>(species, body_mass_kg, bill_ratio)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 3
+   species body_mass_kg bill_ratio
+   &lt;fct&gt;          &lt;dbl&gt;      &lt;dbl&gt;
+ 1 Adelie          3.75       2.09
+ 2 Adelie          3.8        2.27
+ 3 Adelie          3.25       2.24
+ 4 Adelie         NA         NA   
+ 5 Adelie          3.45       1.90
+ 6 Adelie          3.65       1.91
+ 7 Adelie          3.62       2.19
+ 8 Adelie          4.68       2   
+ 9 Adelie          3.48       1.88
+10 Adelie          4.25       2.08
+# ℹ 334 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="arrange" class="level1">
+<h1>arrange()</h1>
+<p><code>arrange()</code> sorts rows. By default, it sorts in ascending order.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb26-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(body_mass_g)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species   island   bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;     &lt;fct&gt;             &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Chinstrap Dream              46.9          16.6               192        2700
+ 2 Adelie    Biscoe             36.5          16.6               181        2850
+ 3 Adelie    Biscoe             36.4          17.1               184        2850
+ 4 Adelie    Biscoe             34.5          18.1               187        2900
+ 5 Adelie    Dream              33.1          16.1               178        2900
+ 6 Adelie    Torgers…           38.6          17                 188        2900
+ 7 Chinstrap Dream              43.2          16.6               187        2900
+ 8 Adelie    Biscoe             37.9          18.6               193        2925
+ 9 Adelie    Dream              37.5          18.9               179        2975
+10 Adelie    Dream              37            16.9               185        3000
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Use <code>desc()</code> for descending order.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb28-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Gentoo  Biscoe           49.2          15.2               221        6300
+ 2 Gentoo  Biscoe           59.6          17                 230        6050
+ 3 Gentoo  Biscoe           51.1          16.3               220        6000
+ 4 Gentoo  Biscoe           48.8          16.2               222        6000
+ 5 Gentoo  Biscoe           45.2          16.4               223        5950
+ 6 Gentoo  Biscoe           49.8          15.9               229        5950
+ 7 Gentoo  Biscoe           48.4          14.6               213        5850
+ 8 Gentoo  Biscoe           49.3          15.7               217        5850
+ 9 Gentoo  Biscoe           55.1          16                 230        5850
+10 Gentoo  Biscoe           49.5          16.2               229        5800
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>You can sort by multiple columns. This sorts by species first, then by body mass within each species.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb30-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(species, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Biscoe              43.2          19                 197        4775
+ 2 Adelie  Biscoe              41            20                 203        4725
+ 3 Adelie  Torgersen           42.9          17.6               196        4700
+ 4 Adelie  Torgersen           39.2          19.6               195        4675
+ 5 Adelie  Dream               39.8          19.1               184        4650
+ 6 Adelie  Dream               39.6          18.8               190        4600
+ 7 Adelie  Biscoe              45.6          20.3               191        4600
+ 8 Adelie  Torgersen           42.5          20.7               197        4500
+ 9 Adelie  Dream               37.5          18.5               199        4475
+10 Adelie  Torgersen           41.8          19.4               198        4450
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="summarize" class="level1">
+<h1>summarize()</h1>
+<p><code>summarize()</code> (or <code>summarise()</code>) collapses the data into a summary. Let’s find the average body mass.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb32-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean_mass =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_mass
+      &lt;dbl&gt;
+1     4202.</code></pre>
+</div>
+</div>
+<p>The <code>na.rm = TRUE</code> argument tells R to ignore missing values. You can compute multiple summaries at once.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb34-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(</span>
+<span id="cb34-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean_mass =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb34-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sd_mass =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sd</span>(body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb34-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>()</span>
+<span id="cb34-6">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  mean_mass sd_mass     n
+      &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;
+1     4202.    802.   344</code></pre>
+</div>
+</div>
+</section>
+<section id="group_by" class="level1">
+<h1>group_by()</h1>
+<p><code>group_by()</code> is where dplyr really shines. It splits the data into groups so that subsequent operations are performed per group. Pair it with <code>summarize()</code> for powerful grouped summaries.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb36-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(species) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb36-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(</span>
+<span id="cb36-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean_mass =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb36-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">sd_mass =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sd</span>(body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb36-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>()</span>
+<span id="cb36-7">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  species   mean_mass sd_mass     n
+  &lt;fct&gt;         &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;
+1 Adelie        3701.    459.   152
+2 Chinstrap     3733.    384.    68
+3 Gentoo        5076.    504.   124</code></pre>
+</div>
+</div>
+<p>You can group by multiple variables.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb38-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(species, island) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb38-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(</span>
+<span id="cb38-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean_mass =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb38-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>(),</span>
+<span id="cb38-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">.groups =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"drop"</span></span>
+<span id="cb38-7">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+  species   island    mean_mass     n
+  &lt;fct&gt;     &lt;fct&gt;         &lt;dbl&gt; &lt;int&gt;
+1 Adelie    Biscoe        3710.    44
+2 Adelie    Dream         3688.    56
+3 Adelie    Torgersen     3706.    52
+4 Chinstrap Dream         3733.    68
+5 Gentoo    Biscoe        5076.   124</code></pre>
+</div>
+</div>
+<p>The <code>.groups = "drop"</code> argument ungroups the data after summarizing, which is good practice.</p>
+</section>
+<section id="putting-it-all-together" class="level1">
+<h1>Putting It All Together</h1>
+<p>The real power of dplyr is chaining verbs together. Let’s find the average flipper length for each species, but only for female penguins weighing over 3500 grams, sorted from longest to shortest.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1">penguins <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(sex <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"female"</span>, body_mass_g <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3500</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_by</span>(species) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">summarize</span>(</span>
+<span id="cb40-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mean_flipper =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(flipper_length_mm, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>),</span>
+<span id="cb40-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">n</span>()</span>
+<span id="cb40-7">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb40-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">desc</span>(mean_flipper))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  species   mean_flipper     n
+  &lt;fct&gt;            &lt;dbl&gt; &lt;int&gt;
+1 Gentoo            213.    58
+2 Chinstrap         192.    19
+3 Adelie            190.    22</code></pre>
+</div>
+</div>
+<p>Each step is readable on its own, and the pipe makes the full pipeline easy to follow.</p>
+</section>
+<section id="quick-reference" class="level1">
+<h1>Quick Reference</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Verb</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>filter()</code></td>
+<td>Keep rows that match a condition</td>
+</tr>
+<tr class="even">
+<td><code>select()</code></td>
+<td>Pick or remove columns</td>
+</tr>
+<tr class="odd">
+<td><code>mutate()</code></td>
+<td>Create or modify columns</td>
+</tr>
+<tr class="even">
+<td><code>arrange()</code></td>
+<td>Sort rows</td>
+</tr>
+<tr class="odd">
+<td><code>summarize()</code></td>
+<td>Collapse data into summaries</td>
+</tr>
+<tr class="even">
+<td><code>group_by()</code></td>
+<td>Group data for per-group operations</td>
+</tr>
+</tbody>
+</table>
+<p>And that’s it! These six verbs will cover the vast majority of your data wrangling needs. Thanks for reading — keep an eye out for more R tutorials!</p>
+
+
+<!-- -->
+
+</section>
+
+ ]]></description>
+  <category>code</category>
+  <category>dplyr</category>
+  <category>tidyverse</category>
+  <guid>https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/</guid>
+  <pubDate>Sat, 15 Feb 2025 05:00:00 GMT</pubDate>
+  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" medium="image" type="image/png" height="115" width="144"/>
+</item>
+<item>
+  <title>Mapping with ggplot2 and sf</title>
+  <dc:creator>Noah Weidig</dc:creator>
+  <link>https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://twitter.com/allison_horst"><img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F077ba65d-1d4e-431d-b719-bda847313d1a_1485x1122.jpeg" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<figcaption>Artwork by @allison_horst</figcaption>
+</figure>
+</div>
+<p>Have you ever made a map in ArcGIS, only to later realize that you made a mistake with your data and will have to remake the entire thing? That’s where the <code>sf</code> package in R comes in!</p>
+<p>Let’s load the sf and tidyverse packages.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Uncomment and run this only once</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#install.packages("sf")</span></span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(sf)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
+</details>
+</div>
+<p>Now, we’ll need to load our data. We’ll use the North Carolina counties data built into the sf package.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">nc <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">st_read</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">system.file</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"shape/nc.shp"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">package =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sf"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `nc' from data source 
+  `/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/sf/shape/nc.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 100 features and 14 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965
+Geodetic CRS:  NAD27</code></pre>
+</div>
+</div>
+<p>Every sf object has a “geometry” column, which stores the coordinates of the point, line, or polygon. Now, let’s plot it. The ggplot2 package has a geom_sf option for simple features.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nc)</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># if that does not work, you may have to specify the geometry in the aesthetic</span></span>
+<span id="cb5-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nc, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">geometry =</span> geometry))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Not bad. I prefer to not see the latitude/longitude along the axes, so I frequently use <code>theme_void()</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nc) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Great! This dataset has several attributes related to births and infant deaths. We’ll use the SID79, which is the number of sudden infant deaths in the year 1979 for each county.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nc, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> SID79)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The ggplot default colors are not my favorite. I prefer using brewer colors. The direction argument reverses the direction of color darkening so that darker indicates a higher value.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nc, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> SID79)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb8-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_fill_distiller</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"YlOrBr"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">direction =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see quite clearly that a few counties in central North Carolina had a large number of sudden infant deaths in 1979. To clean up this map, let’s add a scale bar and north arrow (using the ggspatial package), and refine the labels.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggspatial)</span>
+<span id="cb9-2"></span>
+<span id="cb9-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> nc, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> SID79)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_fill_distiller</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"YlOrBr"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">direction =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">annotation_scale</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">location =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bl"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">line_width =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">annotation_north_arrow</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">style =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">north_arrow_fancy_orienteering</span>(),</span>
+<span id="cb9-9">                         <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">location =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tl"</span>, </span>
+<span id="cb9-10">                         <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">height =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unit</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cm"</span>),</span>
+<span id="cb9-11">                         <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">width =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unit</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.8</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cm"</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"SIDS 1979"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Much better! The scale bar and north arrow size can be adjusted as needed. This mostly depends on how large you save the figure. These ggplot objects can be saved the same way as a regular plot.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggsave</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nc.jpg"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">width =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">height =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dpi =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">300</span>)</span></code></pre></div>
+</details>
+</div>
+<p>And you’re done! You’ve created your first official map in R!</p>
+<p>Thanks for joining me. Keep an eye out for more tutorials in R!</p>
+
+
+<!-- -->
+
+
+ ]]></description>
+  <category>code</category>
+  <category>ggplot2</category>
+  <category>dataviz</category>
+  <category>sf</category>
+  <guid>https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/</guid>
+  <pubDate>Fri, 14 Feb 2025 05:00:00 GMT</pubDate>
+  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/image.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Basics of ggplot2</title>
+  <dc:creator>Noah Weidig</dc:creator>
+  <link>https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/images/ggplot.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<figcaption>Artwork by @allison_horst</figcaption>
+</figure>
+</div>
+<p>Nothing is worse than reading a scientific publication only to encounter muddled, overly busy figures. Clear storytelling is a cornerstone of scientific writing, and the saying “a picture is worth a thousand words” has never been more relevant. Let’s dive into creating clean, effective figures in R!</p>
+<section id="import-data" class="level1">
+<h1>Import Data</h1>
+<p>First, we need to make sure that <em>tidyverse</em> is installed. <em>ggplot</em> is a package within <em>tidyverse</em>, which is one of the most useful tools in R for data wrangling and visualization.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Uncomment and run this line once</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#install.packages("tidyverse")</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># load the package</span></span>
+<span id="cb1-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
+</details>
+</div>
+<p>Next, lets read in our data. We’ll be working with the palmer penguins dataset, which is free and publicly available.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Uncomment and run this line once</span></span>
+<span id="cb2-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#install.packages("palmerpenguins")</span></span>
+<span id="cb2-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(palmerpenguins)</span>
+<span id="cb2-4"></span>
+<span id="cb2-5">data <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> penguins</span></code></pre></div>
+</details>
+</div>
+<p>First, let’s look at the data in a tabular form.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">print</span>(data)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>So there are eight columns and 344 rows. Let’s say we are interested in penguin weight. We’ll need to look at the “body_mass_g” variable.</p>
+</section>
+<section id="basic-syntax" class="level1">
+<h1>Basic Syntax</h1>
+<p>Let’s create a basic histogram to look at the distribution of this continuous variable.</p>
+<p>To start, you call ggplot(). The first argument is our data.</p>
+<p>I could also code it with data = data, although the first argument with ggplot is always the “data =” argument.</p>
+<p>Next we have to specify the aesthetics. Since a histogram only has an x argument (our continuous variable: body_mass_g, in our case), that’s all we need.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># or</span></span>
+<span id="cb6-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(body_mass_g))</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>However, this is just a blank graph. We need to specify which type of graph. In this example, we will create a histogram. Each additional “geom” is added by a “+” sign. I generally like to start a new line after each “+”.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Not bad! Now let’s customize it. I personally do not like the default ggplot look, so let’s try some built in themes.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb8-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb8-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_bw</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb9-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb10-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb10-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb11-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb11-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_linedraw</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I prefer theme_bw() or theme_minimal(). Let’s stick with those going forward.</p>
+</section>
+<section id="get-colorful" class="level1">
+<h1>Get Colorful</h1>
+<p>Maybe you want to change the fill color of the histogram bars. Colors in R are always specified within quotes.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb12-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"red"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb12-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Maybe you want you want each species to have a different color. We’ll need to specify which variable is our fill <em>within</em> the aes().</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Great! But these are stacked bars. We want them to overlap.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb14-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"identity"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb14-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>But we can’t quite see some of the bars that overlap. Let’s change the transparency (alpha).</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb15-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"identity"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.7</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb15-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Much better!</p>
+</section>
+<section id="labeling-your-graph" class="level1">
+<h1>Labeling Your Graph</h1>
+<p>The x and y-axes aren’t very pretty right now. Let’s change that. We’ll use labs().</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> body_mass_g, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> species)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb16-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_histogram</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"identity"</span>,</span>
+<span id="cb16-3">                              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.7</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb16-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_minimal</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb16-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Body Mass (g)"</span>,</span>
+<span id="cb16-6">          <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Frequency"</span>,</span>
+<span id="cb16-7">          <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Species"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="other-geoms" class="level1">
+<h1>Other geoms</h1>
+<p>Since this is a basic introduction to ggplot, we will not go into all the other geoms. However, there are several other types of graphs you can make:</p>
+<ul>
+<li><p><code>geom_bar</code>: <em>bar graphs</em></p></li>
+<li><p><code>geom_point</code>: <em>scatterplots</em></p></li>
+<li><p><code>geom_line</code>: <em>linegraphs</em></p></li>
+<li><p><code>geom_text</code>: <em>adding text to your figure</em></p></li>
+<li><p>And so many more!</p></li>
+</ul>
+<section id="exporting-figures" class="level2">
+<h2 class="anchored" data-anchor-id="exporting-figures">Exporting Figures</h2>
+<p>Now let’s save our figure. Most journals require between 300-600 dots per inch (dpi).</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggsave</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"penguins_histogram.jpg"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">width =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">height =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">dpi =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">300</span>)</span></code></pre></div>
+</details>
+</div>
+<p>And that’s it! Thanks for reading! Look out for more R tutorials.</p>
+
+
+<!-- -->
+
+</section>
+</section>
+
+ ]]></description>
+  <category>code</category>
+  <category>ggplot2</category>
+  <category>dataviz</category>
+  <guid>https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/</guid>
+  <pubDate>Thu, 13 Feb 2025 05:00:00 GMT</pubDate>
+  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/image.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Welcome To ChartifyR</title>
+  <dc:creator>Noah Weidig</dc:creator>
+  <link>https://chartifyr.quarto.pub/chartifyr/posts/welcome/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I’m excited to share my knowledge of data science and visualization using R, specifically the <code>tidyverse</code> suite of packages, as well as other languages and tools.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/welcome/images/tidyverse-01.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<figcaption>Artwork by @allison_horst</figcaption>
+</figure>
+</div>
+
+
+<!-- -->
+
+
+ ]]></description>
+  <category>news</category>
+  <guid>https://chartifyr.quarto.pub/chartifyr/posts/welcome/</guid>
+  <pubDate>Mon, 10 Feb 2025 05:00:00 GMT</pubDate>
+  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/welcome/images/tidyverse-01.png" medium="image" type="image/png" height="86" width="144"/>
+</item>
+</channel>
+</rss>

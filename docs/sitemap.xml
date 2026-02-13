@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/about.html</loc>
+    <lastmod>2026-02-11T15:44:15.778Z</lastmod>
+  </url>
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/index.html</loc>
+    <lastmod>2026-02-11T20:41:36.754Z</lastmod>
+  </url>
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index.html</loc>
+    <lastmod>2026-02-11T15:45:29.127Z</lastmod>
+  </url>
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index.html</loc>
+    <lastmod>2026-02-11T15:45:08.690Z</lastmod>
+  </url>
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/posts/welcome/index.html</loc>
+    <lastmod>2026-02-11T15:44:38.403Z</lastmod>
+  </url>
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/index.html</loc>
+    <lastmod>2026-02-11T16:17:53.097Z</lastmod>
+  </url>
+  <url>
+    <loc>https://chartifyr.quarto.pub/chartifyr/index.html</loc>
+    <lastmod>2026-02-11T21:01:41.005Z</lastmod>
+  </url>
+</urlset>
