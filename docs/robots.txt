@@ -1,1 +1,1 @@
-Sitemap: https://chartifyr.quarto.pub/chartifyr/sitemap.xml
+Sitemap: https://noahweidig.github.io/chartifyr/sitemap.xml

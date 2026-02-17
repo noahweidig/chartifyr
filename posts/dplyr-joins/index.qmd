@@ -6,6 +6,7 @@ execute:
 author: "Noah Weidig"
 date: "2025-02-25"
 categories: [code, dplyr, tidyverse]
+image: "images/dplyr_joins.jpg"
 description: "Learn how to combine datasets with dplyr joins — left_join, inner_join, full_join — and how to diagnose duplicate rows, missing keys, and NA surprises."
 toc: true
 toc-depth: 2

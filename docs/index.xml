@@ -6,15 +6,805 @@
       version="2.0">
 <channel>
 <title>ChartifyR</title>
-<link>https://chartifyr.quarto.pub/chartifyr/</link>
-<atom:link href="https://chartifyr.quarto.pub/chartifyr/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://noahweidig.github.io/chartifyr/</link>
+<atom:link href="https://noahweidig.github.io/chartifyr/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.6.32</generator>
-<lastBuildDate>Sat, 22 Feb 2025 05:00:00 GMT</lastBuildDate>
+<generator>quarto-1.6.42</generator>
+<lastBuildDate>Tue, 25 Feb 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Mastering Joins in dplyr</title>
+  <dc:creator>Noah Weidig</dc:creator>
+  <link>https://noahweidig.github.io/chartifyr/posts/dplyr-joins/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Combining two datasets sounds simple — until you get back twice as many rows as you expected, or half your data vanishes. Joins are one of the most useful operations in data analysis, but they’re also one of the easiest places to introduce silent bugs. This tutorial will walk you through the main dplyr join functions, show you exactly what each one does, and teach you how to spot problems before they ruin your analysis.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>A <strong>join</strong> merges two tables together based on one or more shared columns (called <strong>keys</strong>). If you’ve ever used <code>VLOOKUP</code> in Excel or <code>merge()</code> in base R, you’ve already done something like a join.</p>
+<p>Why do joins trip people up?</p>
+<ul>
+<li>You assume every key in one table has a match in the other — often it doesn’t.</li>
+<li>You don’t realize a key appears more than once, causing row multiplication.</li>
+<li>Missing matches silently introduce <code>NA</code> values that propagate through your analysis.</li>
+</ul>
+<p>Joins are everywhere in real work. You might link survey responses to participant demographics, attach weather data to field observations, or connect sales records to product details. Getting them right is essential.</p>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Uncomment and run once if needed</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># install.packages("tidyverse")</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="example-data" class="level1">
+<h1>Example Data</h1>
+<p>We’ll use two small tibbles throughout this tutorial. Think of them as a field study: one table records which bird species were observed at each site, and the other records habitat information for each site.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Bird observations at field sites</span></span>
+<span id="cb2-2">observations <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb2-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">site_id =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"D"</span>),</span>
+<span id="cb2-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">species =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Warbler"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Sparrow"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Hawk"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Finch"</span>),</span>
+<span id="cb2-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">count   =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>)</span>
+<span id="cb2-6">)</span>
+<span id="cb2-7"></span>
+<span id="cb2-8">observations</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 x 3
+  site_id species count
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;
+1 A       Warbler    12
+2 B       Sparrow     7
+3 C       Hawk        3
+4 D       Finch      15</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Habitat data for field sites</span></span>
+<span id="cb4-2">habitat <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb4-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">site_id     =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"C"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"E"</span>),</span>
+<span id="cb4-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">habitat_type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Forest"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Grassland"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Wetland"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Desert"</span>),</span>
+<span id="cb4-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">elevation_m  =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">450</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">120</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">900</span>)</span>
+<span id="cb4-6">)</span>
+<span id="cb4-7"></span>
+<span id="cb4-8">habitat</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 x 3
+  site_id habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;
+1 A       Forest               450
+2 B       Grassland            120
+3 C       Wetland               30
+4 E       Desert               900</code></pre>
+</div>
+</div>
+<p>Notice the mismatch: <code>observations</code> has site <strong>D</strong> but not <strong>E</strong>, while <code>habitat</code> has site <strong>E</strong> but not <strong>D</strong>. This is realistic — data sources rarely line up perfectly.</p>
+</section>
+<section id="left_join" class="level1">
+<h1>left_join()</h1>
+<p><code>left_join()</code> keeps <strong>every row from the left table</strong> and attaches matching columns from the right table. If there’s no match, the right-side columns are filled with <code>NA</code>.</p>
+<p>Think of it this way: you start with your primary dataset and <em>add information</em> from a second source.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Keep all observations, attach habitat info where available</span></span>
+<span id="cb6-2">observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(habitat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 x 5
+  site_id species count habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
+1 A       Warbler    12 Forest               450
+2 B       Sparrow     7 Grassland            120
+3 C       Hawk        3 Wetland               30
+4 D       Finch      15 &lt;NA&gt;                  NA</code></pre>
+</div>
+</div>
+<p><strong>What happened:</strong></p>
+<ul>
+<li>Sites A, B, and C matched, so their habitat data was attached.</li>
+<li>Site D had no match in <code>habitat</code>, so <code>habitat_type</code> and <code>elevation_m</code> are <code>NA</code>.</li>
+<li>Site E (only in <code>habitat</code>) does <strong>not</strong> appear — <code>left_join()</code> only preserves left-table rows.</li>
+</ul>
+<p>This is the most common join in day-to-day analysis. Use it when your left table is the “main” dataset and you want to enrich it with extra columns.</p>
+</section>
+<section id="inner_join" class="level1">
+<h1>inner_join()</h1>
+<p><code>inner_join()</code> keeps <strong>only rows that have a match in both tables</strong>. No match, no row.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Keep only sites present in both tables</span></span>
+<span id="cb8-2">observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb8-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inner_join</span>(habitat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 5
+  site_id species count habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
+1 A       Warbler    12 Forest               450
+2 B       Sparrow     7 Grassland            120
+3 C       Hawk        3 Wetland               30</code></pre>
+</div>
+</div>
+<p><strong>What happened:</strong></p>
+<ul>
+<li>Only sites A, B, and C appear — they exist in both tables.</li>
+<li>Site D (only in <code>observations</code>) and site E (only in <code>habitat</code>) are both dropped.</li>
+<li>No <code>NA</code> values are introduced from the join itself.</li>
+</ul>
+<p>Use <code>inner_join()</code> when you need complete data from both sources and are okay discarding non-matching rows. Be aware that you might silently lose data if your keys don’t overlap as much as you expect.</p>
+</section>
+<section id="full_join" class="level1">
+<h1>full_join()</h1>
+<p><code>full_join()</code> keeps <strong>every row from both tables</strong>. Where there’s no match, missing values are filled with <code>NA</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Keep everything from both tables</span></span>
+<span id="cb10-2">observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb10-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">full_join</span>(habitat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 x 5
+  site_id species count habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
+1 A       Warbler    12 Forest               450
+2 B       Sparrow     7 Grassland            120
+3 C       Hawk        3 Wetland               30
+4 D       Finch      15 &lt;NA&gt;                  NA
+5 E       &lt;NA&gt;       NA Desert               900</code></pre>
+</div>
+</div>
+<p><strong>What happened:</strong></p>
+<ul>
+<li>Sites A, B, and C matched fully.</li>
+<li>Site D appears with <code>NA</code> for habitat columns.</li>
+<li>Site E appears with <code>NA</code> for observation columns.</li>
+<li>Nothing is lost — every row from both tables is preserved.</li>
+</ul>
+<p>Use <code>full_join()</code> when you can’t afford to drop any data and want to see the complete picture of both datasets, gaps included.</p>
+</section>
+<section id="duplicate-row-explosions" class="level1">
+<h1>Duplicate Row Explosions</h1>
+<p>This is the join pitfall that catches most people off guard. When a key appears <strong>multiple times</strong> in one or both tables, the join produces every combination of matching rows. This is called a <strong>many-to-many</strong> join, and it can silently multiply your row count.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Multiple observations per site</span></span>
+<span id="cb12-2">obs_multi <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb12-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">site_id =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>),</span>
+<span id="cb12-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">species =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Warbler"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Robin"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Sparrow"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Jay"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Wren"</span>),</span>
+<span id="cb12-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">count   =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">12</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>)</span>
+<span id="cb12-6">)</span>
+<span id="cb12-7"></span>
+<span id="cb12-8">obs_multi</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 x 3
+  site_id species count
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;
+1 A       Warbler    12
+2 A       Robin       5
+3 B       Sparrow     7
+4 B       Jay         3
+5 B       Wren        9</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Multiple habitat records per site (e.g., sub-habitats)</span></span>
+<span id="cb14-2">hab_multi <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb14-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">site_id     =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"A"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B"</span>),</span>
+<span id="cb14-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">habitat_type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Forest-canopy"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Forest-understory"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Grassland"</span>),</span>
+<span id="cb14-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">elevation_m  =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">450</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">445</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">120</span>)</span>
+<span id="cb14-6">)</span>
+<span id="cb14-7"></span>
+<span id="cb14-8">hab_multi</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 3
+  site_id habitat_type      elevation_m
+  &lt;chr&gt;   &lt;chr&gt;                   &lt;dbl&gt;
+1 A       Forest-canopy             450
+2 A       Forest-understory         445
+3 B       Grassland                 120</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Many-to-many join: row explosion</span></span>
+<span id="cb16-2">obs_multi <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb16-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(hab_multi, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">relationship =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"many-to-many"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 x 5
+  site_id species count habitat_type      elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;
+1 A       Warbler    12 Forest-canopy             450
+2 A       Warbler    12 Forest-understory         445
+3 A       Robin       5 Forest-canopy             450
+4 A       Robin       5 Forest-understory         445
+5 B       Sparrow     7 Grassland                 120
+6 B       Jay         3 Grassland                 120
+7 B       Wren        9 Grassland                 120</code></pre>
+</div>
+</div>
+<p>Site A had 2 observation rows and 2 habitat rows, producing <strong>2 x 2 = 4</strong> rows. Site B had 3 observation rows and 1 habitat row, producing <strong>3 x 1 = 3</strong> rows. Our 5-row table became 7 rows.</p>
+<p>In a real dataset with thousands of rows, this can balloon your data without any warning if you aren’t checking row counts.</p>
+<p><strong>How to detect duplicates before joining:</strong></p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Count how many times each key appears</span></span>
+<span id="cb18-2">obs_multi <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">count</span>(site_id) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(n <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 x 2
+  site_id     n
+  &lt;chr&gt;   &lt;int&gt;
+1 A           2
+2 B           3</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">hab_multi <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb20-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">count</span>(site_id) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb20-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(n <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 2
+  site_id     n
+  &lt;chr&gt;   &lt;int&gt;
+1 A           2</code></pre>
+</div>
+</div>
+<p>If both tables show duplicates for the same key, you have a many-to-many situation. Decide whether to aggregate first (e.g., summarize to one row per key) or whether the duplication is intentional.</p>
+</section>
+<section id="diagnosing-join-problems" class="level1">
+<h1>Diagnosing Join Problems</h1>
+<section id="anti_join" class="level2">
+<h2 class="anchored" data-anchor-id="anti_join">anti_join()</h2>
+<p><code>anti_join()</code> returns rows from the left table that have <strong>no match</strong> in the right table. It’s the best way to find what gets lost in a join.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Which observations have no habitat data?</span></span>
+<span id="cb22-2">observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb22-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">anti_join</span>(habitat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  site_id species count
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;
+1 D       Finch      15</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Which habitats have no observations?</span></span>
+<span id="cb24-2">habitat <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb24-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">anti_join</span>(observations, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  site_id habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;
+1 E       Desert               900</code></pre>
+</div>
+</div>
+<p>Run <code>anti_join()</code> in both directions before doing your actual join. This tells you exactly what data is missing.</p>
+</section>
+<section id="counting-keys" class="level2">
+<h2 class="anchored" data-anchor-id="counting-keys">Counting keys</h2>
+<p>Always check whether your join key is unique before joining. If it isn’t, you may get unexpected row multiplication.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Check if site_id is unique in each table</span></span>
+<span id="cb26-2">observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb26-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">count</span>(site_id) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb26-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">filter</span>(n <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 x 2
+# i 2 variables: site_id &lt;chr&gt;, n &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>An empty result means every key is unique — safe for a one-to-one or one-to-many join.</p>
+</section>
+<section id="checking-row-counts-before-and-after" class="level2">
+<h2 class="anchored" data-anchor-id="checking-row-counts-before-and-after">Checking row counts before and after</h2>
+<p>A simple but effective diagnostic: compare <code>nrow()</code> before and after your join.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Before</span></span>
+<span id="cb28-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>(observations)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># After left_join</span></span>
+<span id="cb30-2">result <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb30-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(habitat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span>
+<span id="cb30-4"></span>
+<span id="cb30-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">nrow</span>(result)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>For a <code>left_join()</code> with unique keys on the right, the row count should stay the same. If it goes up, you likely have duplicate keys in the right table. If it goes down (shouldn’t happen with <code>left_join()</code>), something unusual is going on.</p>
+</section>
+</section>
+<section id="handling-missing-values" class="level1">
+<h1>Handling Missing Values</h1>
+<p>Joins frequently introduce <code>NA</code> values — any time a key doesn’t match, the unmatched columns get <code>NA</code>. It’s important to handle them explicitly rather than letting them propagate through calculations.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># left_join introduces NAs for site D</span></span>
+<span id="cb32-2">joined <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> observations <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb32-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">left_join</span>(habitat, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"site_id"</span>)</span>
+<span id="cb32-4"></span>
+<span id="cb32-5">joined</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 x 5
+  site_id species count habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
+1 A       Warbler    12 Forest               450
+2 B       Sparrow     7 Grassland            120
+3 C       Hawk        3 Wetland               30
+4 D       Finch      15 &lt;NA&gt;                  NA</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Replace NA habitat_type with "Unknown"</span></span>
+<span id="cb34-2">joined <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb34-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">habitat_type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">replace_na</span>(habitat_type, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Unknown"</span>))</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 x 5
+  site_id species count habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
+1 A       Warbler    12 Forest               450
+2 B       Sparrow     7 Grassland            120
+3 C       Hawk        3 Wetland               30
+4 D       Finch      15 Unknown               NA</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Replace multiple columns at once using across()</span></span>
+<span id="cb36-2">joined <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb36-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(</span>
+<span id="cb36-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">habitat_type =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">replace_na</span>(habitat_type, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Unknown"</span>),</span>
+<span id="cb36-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">elevation_m  =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">replace_na</span>(elevation_m, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb36-6">  )</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 x 5
+  site_id species count habitat_type elevation_m
+  &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt;
+1 A       Warbler    12 Forest               450
+2 B       Sparrow     7 Grassland            120
+3 C       Hawk        3 Wetland               30
+4 D       Finch      15 Unknown                0</code></pre>
+</div>
+</div>
+<p>Choosing what to replace <code>NA</code> with depends on your analysis. Sometimes <code>"Unknown"</code> makes sense; sometimes <code>0</code> is appropriate; sometimes you should filter out the <code>NA</code> rows entirely. The key is making a deliberate choice rather than ignoring the <code>NA</code> values.</p>
+</section>
+<section id="best-practices-checklist" class="level1">
+<h1>Best Practices Checklist</h1>
+<p>Before and after every join, run through this list:</p>
+<ul>
+<li><strong>Inspect your keys.</strong> Use <code>count()</code> to check for duplicates in your join columns. Unique keys prevent row explosions.</li>
+<li><strong>Run <code>anti_join()</code> both ways.</strong> Know what doesn’t match <em>before</em> you join so you aren’t surprised by missing data.</li>
+<li><strong>Compare row counts.</strong> Check <code>nrow()</code> before and after. If the count changes unexpectedly, investigate.</li>
+<li><strong>Use explicit <code>by</code> arguments.</strong> Always specify <code>by = "key_column"</code> instead of relying on dplyr to guess. This makes your code readable and avoids surprises when column names change.</li>
+<li><strong>Handle <code>NA</code> values deliberately.</strong> After a <code>left_join()</code> or <code>full_join()</code>, decide what to do with introduced <code>NA</code> values — replace, filter, or flag them.</li>
+<li><strong>Choose the right join type.</strong> Use <code>left_join()</code> to enrich a primary dataset, <code>inner_join()</code> when you need complete cases from both sides, and <code>full_join()</code> when you can’t afford to lose any rows.</li>
+<li><strong>Aggregate before joining when possible.</strong> If you only need one summary row per key, use <code>summarize()</code> before the join to avoid many-to-many blowups.</li>
+<li><strong>Document your joins.</strong> A short comment explaining <em>why</em> you chose a particular join type helps future you (and your collaborators) understand the logic.</li>
+</ul>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Joins are a fundamental skill for working with real data, and dplyr makes them straightforward — once you know the rules. Here’s what to remember:</p>
+<ul>
+<li><code>left_join()</code> keeps all left-side rows and fills gaps with <code>NA</code>.</li>
+<li><code>inner_join()</code> keeps only rows that match in both tables.</li>
+<li><code>full_join()</code> keeps everything from both sides.</li>
+<li>Duplicate keys cause row multiplication — always check with <code>count()</code>.</li>
+<li><code>anti_join()</code> is your best diagnostic tool for finding mismatches.</li>
+<li>Handle <code>NA</code> values explicitly after every join.</li>
+</ul>
+<p>The difference between a reliable analysis and a broken one often comes down to whether you checked your join. Build the habit of inspecting keys, comparing row counts, and running <code>anti_join()</code> — it will save you from subtle, hard-to-find bugs.</p>
+
+
+<!-- -->
+
+</section>
+
+ ]]></description>
+  <category>code</category>
+  <category>dplyr</category>
+  <category>tidyverse</category>
+  <guid>https://noahweidig.github.io/chartifyr/posts/dplyr-joins/</guid>
+  <pubDate>Tue, 25 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://noahweidig.github.io/chartifyr/posts/dplyr-joins/images/dplyr_joins.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Data Cleaning in the Real World</title>
   <dc:creator>Noah Weidig</dc:creator>
-  <link>https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/</link>
+  <link>https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/</link>
   <description><![CDATA[ 
 
 
@@ -23,7 +813,7 @@
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -1318,14 +2108,14 @@ font-style: inherit;">10</span>)</span></code></pre></div>
  ]]></description>
   <category>code</category>
   <category>tidyverse</category>
-  <guid>https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/</guid>
-  <pubDate>Sat, 22 Feb 2025 05:00:00 GMT</pubDate>
-  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/</guid>
+  <pubDate>Sat, 22 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Basics of dplyr</title>
   <dc:creator>Noah Weidig</dc:creator>
-  <link>https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/</link>
+  <link>https://noahweidig.github.io/chartifyr/posts/dplyr-basics/</link>
   <description><![CDATA[ 
 
 
@@ -1334,7 +2124,7 @@ font-style: inherit;">10</span>)</span></code></pre></div>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -2129,14 +2919,14 @@ font-style: inherit;">desc</span>(mean_flipper))</span></code></pre></div>
   <category>code</category>
   <category>dplyr</category>
   <category>tidyverse</category>
-  <guid>https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/</guid>
-  <pubDate>Sat, 15 Feb 2025 05:00:00 GMT</pubDate>
-  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" medium="image" type="image/png" height="115" width="144"/>
+  <guid>https://noahweidig.github.io/chartifyr/posts/dplyr-basics/</guid>
+  <pubDate>Sat, 15 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://noahweidig.github.io/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" medium="image" type="image/png" height="115" width="144"/>
 </item>
 <item>
   <title>Mapping with ggplot2 and sf</title>
   <dc:creator>Noah Weidig</dc:creator>
-  <link>https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/</link>
+  <link>https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/</link>
   <description><![CDATA[ 
 
 
@@ -2214,7 +3004,7 @@ font-style: inherit;">data =</span> nc)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2240,7 +3030,7 @@ font-style: inherit;">geometry =</span> geometry))</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2266,7 +3056,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2296,7 +3086,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2339,7 +3129,7 @@ font-style: inherit;">1</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2442,7 +3232,7 @@ font-style: inherit;">"SIDS 1979"</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2482,14 +3272,14 @@ font-style: inherit;">300</span>)</span></code></pre></div>
   <category>ggplot2</category>
   <category>dataviz</category>
   <category>sf</category>
-  <guid>https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/</guid>
-  <pubDate>Fri, 14 Feb 2025 05:00:00 GMT</pubDate>
-  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/maps-ggplot-sf/image.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/</guid>
+  <pubDate>Fri, 14 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Basics of ggplot2</title>
   <dc:creator>Noah Weidig</dc:creator>
-  <link>https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/</link>
+  <link>https://noahweidig.github.io/chartifyr/posts/ggplot-basics/</link>
   <description><![CDATA[ 
 
 
@@ -2498,7 +3288,7 @@ font-style: inherit;">300</span>)</span></code></pre></div>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/images/ggplot.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/images/ggplot.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -2593,7 +3383,7 @@ font-style: inherit;">x =</span> body_mass_g))</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2611,7 +3401,7 @@ font-style: inherit;">aes</span>(body_mass_g))</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2636,7 +3426,7 @@ font-style: inherit;">geom_histogram</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2666,7 +3456,7 @@ font-style: inherit;">theme_bw</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2695,7 +3485,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2724,7 +3514,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2753,7 +3543,7 @@ font-style: inherit;">theme_linedraw</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2791,7 +3581,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2823,7 +3613,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2859,7 +3649,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2899,7 +3689,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -2963,7 +3753,7 @@ font-style: inherit;">"Species"</span>)</span></code></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -3016,14 +3806,14 @@ font-style: inherit;">300</span>)</span></code></pre></div>
   <category>code</category>
   <category>ggplot2</category>
   <category>dataviz</category>
-  <guid>https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/</guid>
-  <pubDate>Thu, 13 Feb 2025 05:00:00 GMT</pubDate>
-  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/ggplot-basics/image.jpg" medium="image" type="image/jpeg"/>
+  <guid>https://noahweidig.github.io/chartifyr/posts/ggplot-basics/</guid>
+  <pubDate>Thu, 13 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Welcome To ChartifyR</title>
   <dc:creator>Noah Weidig</dc:creator>
-  <link>https://chartifyr.quarto.pub/chartifyr/posts/welcome/</link>
+  <link>https://noahweidig.github.io/chartifyr/posts/welcome/</link>
   <description><![CDATA[ 
 
 
@@ -3033,7 +3823,7 @@ font-style: inherit;">300</span>)</span></code></pre></div>
 <p>I’m excited to share my knowledge of data science and visualization using R, specifically the <code>tidyverse</code> suite of packages, as well as other languages and tools.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://chartifyr.quarto.pub/chartifyr/posts/welcome/images/tidyverse-01.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/welcome/images/tidyverse-01.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -3044,9 +3834,9 @@ font-style: inherit;">300</span>)</span></code></pre></div>
 
  ]]></description>
   <category>news</category>
-  <guid>https://chartifyr.quarto.pub/chartifyr/posts/welcome/</guid>
-  <pubDate>Mon, 10 Feb 2025 05:00:00 GMT</pubDate>
-  <media:content url="https://chartifyr.quarto.pub/chartifyr/posts/welcome/images/tidyverse-01.png" medium="image" type="image/png" height="86" width="144"/>
+  <guid>https://noahweidig.github.io/chartifyr/posts/welcome/</guid>
+  <pubDate>Mon, 10 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://noahweidig.github.io/chartifyr/posts/welcome/images/tidyverse-01.png" medium="image" type="image/png" height="86" width="144"/>
 </item>
 </channel>
 </rss>
