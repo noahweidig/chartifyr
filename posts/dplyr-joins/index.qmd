@@ -1,0 +1,279 @@
+---
+title: "Mastering Joins in dplyr"
+subtitle: "Understanding left_join, inner_join, full_join, and common pitfalls"
+execute:
+  warning: false
+author: "Noah Weidig"
+date: "2025-02-25"
+categories: [code, dplyr, tidyverse]
+description: "Learn how to combine datasets with dplyr joins — left_join, inner_join, full_join — and how to diagnose duplicate rows, missing keys, and NA surprises."
+toc: true
+toc-depth: 2
+code-fold: show
+---
+
+Combining two datasets sounds simple — until you get back twice as many rows as you expected, or half your data vanishes. Joins are one of the most useful operations in data analysis, but they're also one of the easiest places to introduce silent bugs. This tutorial will walk you through the main dplyr join functions, show you exactly what each one does, and teach you how to spot problems before they ruin your analysis.
+
+# Introduction
+
+A **join** merges two tables together based on one or more shared columns (called **keys**). If you've ever used `VLOOKUP` in Excel or `merge()` in base R, you've already done something like a join.
+
+Why do joins trip people up?
+
+- You assume every key in one table has a match in the other — often it doesn't.
+- You don't realize a key appears more than once, causing row multiplication.
+- Missing matches silently introduce `NA` values that propagate through your analysis.
+
+Joins are everywhere in real work. You might link survey responses to participant demographics, attach weather data to field observations, or connect sales records to product details. Getting them right is essential.
+
+# Setup
+
+```{r}
+# Uncomment and run once if needed
+# install.packages("tidyverse")
+
+library(tidyverse)
+```
+
+# Example Data
+
+We'll use two small tibbles throughout this tutorial. Think of them as a field study: one table records which bird species were observed at each site, and the other records habitat information for each site.
+
+```{r}
+# Bird observations at field sites
+observations <- tibble(
+  site_id = c("A", "B", "C", "D"),
+  species = c("Warbler", "Sparrow", "Hawk", "Finch"),
+  count   = c(12, 7, 3, 15)
+)
+
+observations
+```
+
+```{r}
+# Habitat data for field sites
+habitat <- tibble(
+  site_id     = c("A", "B", "C", "E"),
+  habitat_type = c("Forest", "Grassland", "Wetland", "Desert"),
+  elevation_m  = c(450, 120, 30, 900)
+)
+
+habitat
+```
+
+Notice the mismatch: `observations` has site **D** but not **E**, while `habitat` has site **E** but not **D**. This is realistic — data sources rarely line up perfectly.
+
+# left_join()
+
+`left_join()` keeps **every row from the left table** and attaches matching columns from the right table. If there's no match, the right-side columns are filled with `NA`.
+
+Think of it this way: you start with your primary dataset and *add information* from a second source.
+
+```{r}
+# Keep all observations, attach habitat info where available
+observations |>
+  left_join(habitat, by = "site_id")
+```
+
+**What happened:**
+
+- Sites A, B, and C matched, so their habitat data was attached.
+- Site D had no match in `habitat`, so `habitat_type` and `elevation_m` are `NA`.
+- Site E (only in `habitat`) does **not** appear — `left_join()` only preserves left-table rows.
+
+This is the most common join in day-to-day analysis. Use it when your left table is the "main" dataset and you want to enrich it with extra columns.
+
+# inner_join()
+
+`inner_join()` keeps **only rows that have a match in both tables**. No match, no row.
+
+```{r}
+# Keep only sites present in both tables
+observations |>
+  inner_join(habitat, by = "site_id")
+```
+
+**What happened:**
+
+- Only sites A, B, and C appear — they exist in both tables.
+- Site D (only in `observations`) and site E (only in `habitat`) are both dropped.
+- No `NA` values are introduced from the join itself.
+
+Use `inner_join()` when you need complete data from both sources and are okay discarding non-matching rows. Be aware that you might silently lose data if your keys don't overlap as much as you expect.
+
+# full_join()
+
+`full_join()` keeps **every row from both tables**. Where there's no match, missing values are filled with `NA`.
+
+```{r}
+# Keep everything from both tables
+observations |>
+  full_join(habitat, by = "site_id")
+```
+
+**What happened:**
+
+- Sites A, B, and C matched fully.
+- Site D appears with `NA` for habitat columns.
+- Site E appears with `NA` for observation columns.
+- Nothing is lost — every row from both tables is preserved.
+
+Use `full_join()` when you can't afford to drop any data and want to see the complete picture of both datasets, gaps included.
+
+# Duplicate Row Explosions
+
+This is the join pitfall that catches most people off guard. When a key appears **multiple times** in one or both tables, the join produces every combination of matching rows. This is called a **many-to-many** join, and it can silently multiply your row count.
+
+```{r}
+# Multiple observations per site
+obs_multi <- tibble(
+  site_id = c("A", "A", "B", "B", "B"),
+  species = c("Warbler", "Robin", "Sparrow", "Jay", "Wren"),
+  count   = c(12, 5, 7, 3, 9)
+)
+
+obs_multi
+```
+
+```{r}
+# Multiple habitat records per site (e.g., sub-habitats)
+hab_multi <- tibble(
+  site_id     = c("A", "A", "B"),
+  habitat_type = c("Forest-canopy", "Forest-understory", "Grassland"),
+  elevation_m  = c(450, 445, 120)
+)
+
+hab_multi
+```
+
+```{r}
+# Many-to-many join: row explosion
+obs_multi |>
+  left_join(hab_multi, by = "site_id", relationship = "many-to-many")
+```
+
+Site A had 2 observation rows and 2 habitat rows, producing **2 x 2 = 4** rows. Site B had 3 observation rows and 1 habitat row, producing **3 x 1 = 3** rows. Our 5-row table became 7 rows.
+
+In a real dataset with thousands of rows, this can balloon your data without any warning if you aren't checking row counts.
+
+**How to detect duplicates before joining:**
+
+```{r}
+# Count how many times each key appears
+obs_multi |>
+  count(site_id) |>
+  filter(n > 1)
+```
+
+```{r}
+hab_multi |>
+  count(site_id) |>
+  filter(n > 1)
+```
+
+If both tables show duplicates for the same key, you have a many-to-many situation. Decide whether to aggregate first (e.g., summarize to one row per key) or whether the duplication is intentional.
+
+# Diagnosing Join Problems
+
+## anti_join()
+
+`anti_join()` returns rows from the left table that have **no match** in the right table. It's the best way to find what gets lost in a join.
+
+```{r}
+# Which observations have no habitat data?
+observations |>
+  anti_join(habitat, by = "site_id")
+```
+
+```{r}
+# Which habitats have no observations?
+habitat |>
+  anti_join(observations, by = "site_id")
+```
+
+Run `anti_join()` in both directions before doing your actual join. This tells you exactly what data is missing.
+
+## Counting keys
+
+Always check whether your join key is unique before joining. If it isn't, you may get unexpected row multiplication.
+
+```{r}
+# Check if site_id is unique in each table
+observations |>
+  count(site_id) |>
+  filter(n > 1)
+```
+
+An empty result means every key is unique — safe for a one-to-one or one-to-many join.
+
+## Checking row counts before and after
+
+A simple but effective diagnostic: compare `nrow()` before and after your join.
+
+```{r}
+# Before
+nrow(observations)
+
+# After left_join
+result <- observations |>
+  left_join(habitat, by = "site_id")
+
+nrow(result)
+```
+
+For a `left_join()` with unique keys on the right, the row count should stay the same. If it goes up, you likely have duplicate keys in the right table. If it goes down (shouldn't happen with `left_join()`), something unusual is going on.
+
+# Handling Missing Values
+
+Joins frequently introduce `NA` values — any time a key doesn't match, the unmatched columns get `NA`. It's important to handle them explicitly rather than letting them propagate through calculations.
+
+```{r}
+# left_join introduces NAs for site D
+joined <- observations |>
+  left_join(habitat, by = "site_id")
+
+joined
+```
+
+```{r}
+# Replace NA habitat_type with "Unknown"
+joined |>
+  mutate(habitat_type = replace_na(habitat_type, "Unknown"))
+```
+
+```{r}
+# Replace multiple columns at once using across()
+joined |>
+  mutate(
+    habitat_type = replace_na(habitat_type, "Unknown"),
+    elevation_m  = replace_na(elevation_m, 0)
+  )
+```
+
+Choosing what to replace `NA` with depends on your analysis. Sometimes `"Unknown"` makes sense; sometimes `0` is appropriate; sometimes you should filter out the `NA` rows entirely. The key is making a deliberate choice rather than ignoring the `NA` values.
+
+# Best Practices Checklist
+
+Before and after every join, run through this list:
+
+- **Inspect your keys.** Use `count()` to check for duplicates in your join columns. Unique keys prevent row explosions.
+- **Run `anti_join()` both ways.** Know what doesn't match *before* you join so you aren't surprised by missing data.
+- **Compare row counts.** Check `nrow()` before and after. If the count changes unexpectedly, investigate.
+- **Use explicit `by` arguments.** Always specify `by = "key_column"` instead of relying on dplyr to guess. This makes your code readable and avoids surprises when column names change.
+- **Handle `NA` values deliberately.** After a `left_join()` or `full_join()`, decide what to do with introduced `NA` values — replace, filter, or flag them.
+- **Choose the right join type.** Use `left_join()` to enrich a primary dataset, `inner_join()` when you need complete cases from both sides, and `full_join()` when you can't afford to lose any rows.
+- **Aggregate before joining when possible.** If you only need one summary row per key, use `summarize()` before the join to avoid many-to-many blowups.
+- **Document your joins.** A short comment explaining *why* you chose a particular join type helps future you (and your collaborators) understand the logic.
+
+# Conclusion
+
+Joins are a fundamental skill for working with real data, and dplyr makes them straightforward — once you know the rules. Here's what to remember:
+
+- `left_join()` keeps all left-side rows and fills gaps with `NA`.
+- `inner_join()` keeps only rows that match in both tables.
+- `full_join()` keeps everything from both sides.
+- Duplicate keys cause row multiplication — always check with `count()`.
+- `anti_join()` is your best diagnostic tool for finding mismatches.
+- Handle `NA` values explicitly after every join.
+
+The difference between a reliable analysis and a broken one often comes down to whether you checked your join. Build the habit of inspecting keys, comparing row counts, and running `anti_join()` — it will save you from subtle, hard-to-find bugs.
