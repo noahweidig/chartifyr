@@ -548,8 +548,11 @@ p_base <- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g,
 p_base + labs(title = "Original")
 
 # Simulate deuteranopia (red-green deficiency)
-colorspace::cvd_emulator(p_base + labs(title = "Simulated deuteranopia"),
-                          cvd = "deutan", severity = 1)
+# cvd_emulator() expects a file path, so save the plot to a temp file first
+tmp_plot <- tempfile(fileext = ".png")
+ggsave(tmp_plot, p_base + labs(title = "Simulated deuteranopia"),
+       width = 7, height = 5, dpi = 150)
+colorspace::cvd_emulator(tmp_plot)
 ```
 
 If the simulated plot makes it hard to distinguish groups, switch to a CVD-safe palette such as viridis, `"Okabe-Ito"` (khroma), or Brewer's qualitative palettes.

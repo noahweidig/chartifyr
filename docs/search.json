@@ -159,5 +159,68 @@
     "title": "ChartifyR",
     "section": "",
     "text": "✨ R, Data Viz, and Ecological Storytelling\nHands-on tutorials for building publication-ready charts, maps, and data pipelines in R — from ggplot2 and sf to tidy data wrangling. Browse recent posts or filter by category to find what you need.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMastering Joins in dplyr\n\n\nUnderstanding left_join, inner_join, full_join, and common pitfalls\n\n\n\ncode\n\n\ndplyr\n\n\ntidyverse\n\n\n\nLearn how to combine datasets with dplyr joins — left_join, inner_join, full_join — and how to diagnose duplicate rows, missing keys, and NA surprises.\n\n\n\n\n\nFeb 25, 2025\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nData Cleaning in the Real World\n\n\nFrom messy CSVs to analysis-ready tables with tidyr and stringr\n\n\n\ncode\n\n\ntidyverse\n\n\n\nLearn how to reshape, split, and clean messy data using tidyr and stringr — pivoting, separating columns, pattern matching, and handling common gotchas.\n\n\n\n\n\nFeb 22, 2025\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nBasics of dplyr\n\n\nA beginners guide to data wrangling in R\n\n\n\ncode\n\n\ndplyr\n\n\ntidyverse\n\n\n\nLearn the core dplyr verbs — filter, select, mutate, arrange, summarize, and group_by — using the Palmer Penguins dataset.\n\n\n\n\n\nFeb 15, 2025\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nMapping with ggplot2 and sf\n\n\nA simple guide to creating elegant maps in R\n\n\n\ncode\n\n\nggplot2\n\n\ndataviz\n\n\nsf\n\n\n\nCreate beautiful maps in R using ggplot2 and the sf package — from basic polygons to customized choropleth maps with scale bars.\n\n\n\n\n\nFeb 14, 2025\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nBasics of ggplot2\n\n\nA beginners guide to making figures in R\n\n\n\ncode\n\n\nggplot2\n\n\ndataviz\n\n\n\nLearn the fundamentals of ggplot2 — from basic histograms to colorful, labeled figures using the Palmer Penguins dataset.\n\n\n\n\n\nFeb 13, 2025\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To ChartifyR\n\n\n\n\n\n\nnews\n\n\n\nIntroducing ChartifyR — a space for sharing data science and visualization techniques using R and the tidyverse.\n\n\n\n\n\nFeb 10, 2025\n\n\n1 min\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html",
+    "href": "posts/blog-r-color-palettes/index.html",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "",
+    "text": "Color can make or break a figure. The right palette draws attention to the story in your data; the wrong one buries it under visual noise. In this post we will walk through the major palette ecosystems available in R, learn when to reach for each one, and pick up practical rules that keep figures readable, accessible, and honest."
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#the-68-rule",
+    "href": "posts/blog-r-color-palettes/index.html#the-68-rule",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "The 6–8 Rule",
+    "text": "The 6–8 Rule\nHumans can reliably distinguish roughly 6 to 8 hues at a glance. Beyond that, colors start to blur together, especially in scatterplots where points overlap. Here is what happens when you push it.\n\n\nCode\n# mtcars has many cylinder + gear combos — let's create a busy variable\nmtcars_busy &lt;- mtcars |&gt;\n  mutate(car_name = rownames(mtcars))\n\nggplot(mtcars_busy, aes(x = wt, y = mpg, color = car_name)) +\n  geom_point(size = 3) +\n  labs(title = \"Too many categories — the legend is unreadable\",\n       x = \"Weight (1000 lbs)\", y = \"Miles per gallon\") +\n  theme_classic() +\n  theme(legend.text = element_text(size = 5))\n\n\n\n\n\n\n\n\n\nThat is a mess. Here are your escape hatches:\n\nFix 1: Lump rare categories\n\n\nCode\npenguins_islands &lt;- penguins |&gt;\n  count(island, species) |&gt;\n  mutate(label = paste(island, species, sep = \" — \"))\n\n# Works fine with a manageable number of groups\nggplot(penguins_islands, aes(x = reorder(label, n), y = n, fill = island)) +\n  geom_col(show.legend = TRUE) +\n  coord_flip() +\n  scale_fill_brewer(palette = \"Set2\") +\n  labs(title = \"Lumped into a few groups\",\n       x = NULL, y = \"Count\", fill = \"Island\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\nFix 2: Facet instead of coloring\n\n\nCode\nggplot(penguins, aes(x = bill_length_mm, y = body_mass_g)) +\n  geom_point(size = 1.5, na.rm = TRUE, color = \"steelblue\") +\n  facet_wrap(~ species) +\n  labs(title = \"Faceting removes the need for color\",\n       x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\nFix 3: Use shape or linetype in addition to color\n\n\nCode\nggplot(penguins, aes(x = bill_length_mm, y = body_mass_g,\n                      color = species, shape = species)) +\n  geom_point(size = 2, na.rm = TRUE) +\n  scale_color_brewer(palette = \"Dark2\") +\n  labs(title = \"Shape + color = double encoding\",\n       x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\nFix 4: Highlight one group, grey the rest\n\n\nCode\npenguins_hl &lt;- penguins |&gt;\n  mutate(highlight = if_else(species == \"Chinstrap\", \"Chinstrap\", \"Other\"))\n\nggplot(penguins_hl, aes(x = bill_length_mm, y = body_mass_g,\n                         color = highlight)) +\n  geom_point(size = 2, na.rm = TRUE) +\n  scale_color_manual(values = c(\"Chinstrap\" = \"#E63946\", \"Other\" = \"grey70\")) +\n  labs(title = \"Highlighting one group against the rest\",\n       x = \"Bill length (mm)\", y = \"Body mass (g)\",\n       color = NULL) +\n  theme_classic()"
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#key-principles",
+    "href": "posts/blog-r-color-palettes/index.html#key-principles",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "Key Principles",
+    "text": "Key Principles\n\nNever rely on color alone. Pair color with shape, size, or labels.\nUse perceptually uniform palettes. Viridis, scico, and khroma are safe bets.\nAvoid red-green contrasts. The most common CVD type (deuteranopia) confuses red and green.\nTest your palette. The colorspace package can simulate what your plot looks like under different CVD types."
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#simulating-color-vision-deficiency",
+    "href": "posts/blog-r-color-palettes/index.html#simulating-color-vision-deficiency",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "Simulating Color Vision Deficiency",
+    "text": "Simulating Color Vision Deficiency\n\n\nCode\n# Create a base plot\np_base &lt;- ggplot(penguins, aes(x = bill_length_mm, y = body_mass_g,\n                                color = species)) +\n  geom_point(size = 2, na.rm = TRUE) +\n  scale_color_manual(values = c(\"Adelie\" = \"#E63946\",\n                                 \"Chinstrap\" = \"#2A9D8F\",\n                                 \"Gentoo\" = \"#264653\")) +\n  labs(x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  theme_classic()\n\n# Original\np_base + labs(title = \"Original\")\n\n\n\n\n\n\n\n\n\nCode\n# Simulate deuteranopia (red-green deficiency)\n# cvd_emulator() expects a file path, so save the plot to a temp file first\ntmp_plot &lt;- tempfile(fileext = \".png\")\nggsave(tmp_plot, p_base + labs(title = \"Simulated deuteranopia\"),\n       width = 7, height = 5, dpi = 150)\ncolorspace::cvd_emulator(tmp_plot)\n\n\nConvert deutan          -&gt; /var/folders/03/d3dmjds91_vckyhkgdt677300000gn/T//RtmpSVvF9F/deutan_file7e027e5356fa.png\nConvert protan          -&gt; /var/folders/03/d3dmjds91_vckyhkgdt677300000gn/T//RtmpSVvF9F/protan_file7e027e5356fa.png\nConvert tritan          -&gt; /var/folders/03/d3dmjds91_vckyhkgdt677300000gn/T//RtmpSVvF9F/tritan_file7e027e5356fa.png\nConvert desaturate      -&gt; /var/folders/03/d3dmjds91_vckyhkgdt677300000gn/T//RtmpSVvF9F/desaturate_file7e027e5356fa.png\n\n\nIf the simulated plot makes it hard to distinguish groups, switch to a CVD-safe palette such as viridis, \"Okabe-Ito\" (khroma), or Brewer’s qualitative palettes."
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#a-safer-version",
+    "href": "posts/blog-r-color-palettes/index.html#a-safer-version",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "A Safer Version",
+    "text": "A Safer Version\n\n\nCode\nggplot(penguins, aes(x = bill_length_mm, y = body_mass_g,\n                      color = species, shape = species)) +\n  geom_point(size = 2, na.rm = TRUE) +\n  scale_color_viridis_d(option = \"cividis\") +\n  labs(title = \"CVD-safe: viridis cividis + shape encoding\",\n       x = \"Bill length (mm)\", y = \"Body mass (g)\") +\n  theme_classic()"
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#pitfall-1-the-rainbow-palette",
+    "href": "posts/blog-r-color-palettes/index.html#pitfall-1-the-rainbow-palette",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "Pitfall 1: The Rainbow Palette",
+    "text": "Pitfall 1: The Rainbow Palette\nRainbow (jet) palettes are not perceptually uniform — yellow appears brighter than blue, creating false visual emphasis. They also fail under grayscale printing and for colorblind viewers.\n\n\nCode\n# Don't do this\nggplot(faithfuld, aes(waiting, eruptions, fill = density)) +\n  geom_tile() +\n  scale_fill_gradientn(colours = rainbow(256)) +\n  labs(title = \"Rainbow palette — avoid this\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\nCode\n# Do this instead\nggplot(faithfuld, aes(waiting, eruptions, fill = density)) +\n  geom_tile() +\n  scale_fill_viridis_c() +\n  labs(title = \"Viridis — perceptually uniform\") +\n  theme_classic()"
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#pitfall-2-low-contrast-palettes",
+    "href": "posts/blog-r-color-palettes/index.html#pitfall-2-low-contrast-palettes",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "Pitfall 2: Low-Contrast Palettes",
+    "text": "Pitfall 2: Low-Contrast Palettes\nPastel-on-white palettes look washed out on screens and vanish when printed.\n\n\nCode\n# Low contrast\nggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +\n  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +\n  scale_fill_manual(values = c(\"#FFF5F5\", \"#F5FFF5\", \"#F5F5FF\")) +\n  labs(title = \"Low contrast — hard to read\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\nCode\n# Better contrast\nggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +\n  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +\n  scale_fill_brewer(palette = \"Set2\") +\n  labs(title = \"Brewer Set2 — clear contrast\") +\n  theme_classic()"
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#pitfall-3-diverging-scales-on-non-diverging-data",
+    "href": "posts/blog-r-color-palettes/index.html#pitfall-3-diverging-scales-on-non-diverging-data",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "Pitfall 3: Diverging Scales on Non-Diverging Data",
+    "text": "Pitfall 3: Diverging Scales on Non-Diverging Data\nDiverging palettes imply a meaningful midpoint (zero, average, threshold). Using them for data without a natural center misleads the reader.\n\n\nCode\n# Misleading: diverging scale on body mass (no natural midpoint)\nggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm,\n                      color = body_mass_g)) +\n  geom_point(size = 2, na.rm = TRUE) +\n  scale_color_distiller(palette = \"RdBu\") +\n  labs(title = \"Diverging scale on non-diverging data — misleading\",\n       x = \"Bill length (mm)\", y = \"Bill depth (mm)\",\n       color = \"Mass (g)\") +\n  theme_classic()\n\n\n\n\n\n\n\n\n\nCode\n# Correct: sequential scale\nggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm,\n                      color = body_mass_g)) +\n  geom_point(size = 2, na.rm = TRUE) +\n  scale_color_viridis_c() +\n  labs(title = \"Sequential scale — appropriate for body mass\",\n       x = \"Bill length (mm)\", y = \"Bill depth (mm)\",\n       color = \"Mass (g)\") +\n  theme_classic()"
+  },
+  {
+    "objectID": "posts/blog-r-color-palettes/index.html#pitfall-4-too-many-categories",
+    "href": "posts/blog-r-color-palettes/index.html#pitfall-4-too-many-categories",
+    "title": "Everything Palettes in R: Viridis, Brewer, and Beyond",
+    "section": "Pitfall 4: Too Many Categories",
+    "text": "Pitfall 4: Too Many Categories\nWe covered this above, but it bears repeating: if your legend has more than 8 entries, rethink your encoding strategy. Lump, facet, highlight, or use a different visual channel."
   }
 ]
