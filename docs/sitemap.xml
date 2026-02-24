@@ -2,38 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://noahweidig.github.io/chartifyr/about.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/welcome/index.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-basics/index.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-joins/index.html</loc>
-    <lastmod>2026-02-17T20:41:36.665Z</lastmod>
+    <lastmod>2026-02-24T02:26:10.162Z</lastmod>
   </url>
   <url>
     <loc>https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/index.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
+    <lastmod>2026-02-24T02:26:10.194Z</lastmod>
   </url>
   <url>
     <loc>https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
+    <lastmod>2026-02-24T02:26:10.201Z</lastmod>
   </url>
   <url>
-    <loc>https://noahweidig.github.io/chartifyr/index.html</loc>
-    <lastmod>2026-02-17T20:25:55.000Z</lastmod>
+    <loc>https://noahweidig.github.io/chartifyr/posts/welcome/index.html</loc>
+    <lastmod>2026-02-24T02:26:10.210Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index.html</loc>
+    <lastmod>2026-02-24T02:26:10.199Z</lastmod>
   </url>
   <url>
     <loc>https://noahweidig.github.io/chartifyr/posts/blog-r-color-palettes/index.html</loc>
-    <lastmod>2026-02-24T02:39:16.295Z</lastmod>
+    <lastmod>2026-02-24T02:41:20.727Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-joins/index.html</loc>
+    <lastmod>2026-02-24T02:26:10.198Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-basics/index.html</loc>
+    <lastmod>2026-02-24T02:26:10.197Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/index.html</loc>
+    <lastmod>2026-02-24T02:26:10.192Z</lastmod>
   </url>
 </urlset>

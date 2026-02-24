@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/blog-r-color-palettes/index.html",
       "/posts/dplyr-joins/index.html",
       "/posts/data-cleaning-tidyr-stringr/index.html",
       "/posts/dplyr-basics/index.html",
