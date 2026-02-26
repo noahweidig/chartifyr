@@ -12,7 +12,7 @@
 [![GitHub Pages](https://img.shields.io/badge/Hosted%20on-GitHub%20Pages-222222?style=flat-square&logo=github)](https://noahweidig.github.io/chartifyr)
 [![License](https://img.shields.io/badge/License-MIT-3d9e8a?style=flat-square)](LICENSE)
 
-[**Visit the Site →**](https://noahweidig.github.io/chartifyr)&nbsp;&nbsp;·&nbsp;&nbsp;[Quarto Pub Mirror](https://noahweidig.quarto.pub/chartifyr)&nbsp;&nbsp;·&nbsp;&nbsp;[About the Author](https://noahweidig.github.io/chartifyr/about.html)
+[**Visit the Site →**](https://noahweidig.github.io/chartifyr)&nbsp;&nbsp;·&nbsp;&nbsp;[About the Author](https://noahweidig.github.io/chartifyr/about.html)
 
 </div>
 
