@@ -159,10 +159,12 @@ Let us build a few reusable plots to combine throughout these examples.
 #| label: base-plots
 
 p_scatter <- ggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm,
-                                   color = species)) +
-  geom_point(alpha = 0.7, na.rm = TRUE) +
+                                   color = species, fill = species)) +
+  geom_point(alpha = 0.7, na.rm = TRUE, shape = 21) +
   scale_color_brewer(palette = "Set2") +
-  labs(x = "Bill length (mm)", y = "Bill depth (mm)", color = "Species") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = "Bill length (mm)", y = "Bill depth (mm)", fill = "Species") +
+  guides(color = "none") +
   theme_bw()
 
 p_box <- ggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +
@@ -210,7 +212,8 @@ p_scatter / p_box
 #| label: patchwork-layout
 
 (p_scatter | p_box | p_hist) +
-  plot_layout(widths = c(2, 1, 1))
+  plot_layout(widths = c(2, 1, 1), guides = "collect") &
+  theme(legend.position = "bottom")
 ```
 
 ```{r}
@@ -304,7 +307,7 @@ top_row <- plot_grid(p_scatter_noleg, p_hist_noleg,
 
 plot_grid(top_row, legend,
           ncol = 1,
-          rel_heights = c(1, 0.15))
+          rel_heights = c(1, 0.25))
 ```
 
 ### Aligning axes
@@ -314,7 +317,9 @@ plot_grid(top_row, legend,
 ```{r}
 #| label: cowplot-align
 
-plot_grid(p_scatter, p_box, p_hist,
+plot_grid(p_scatter + theme(legend.position = "bottom"),
+          p_box,
+          p_hist  + theme(legend.position = "bottom"),
           align  = "hv",
           ncol   = 3,
           labels = "AUTO")
