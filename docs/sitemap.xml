@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://noahweidig.github.io/chartifyr/about.html</loc>
-    <lastmod>2026-02-24T02:26:10.162Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.194Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.201Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/welcome/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.210Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.199Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/blog-r-color-palettes/index.html</loc>
-    <lastmod>2026-02-24T02:41:20.727Z</lastmod>
-  </url>
-  <url>
-    <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-joins/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.198Z</lastmod>
+    <loc>https://noahweidig.github.io/chartifyr/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.871Z</lastmod>
   </url>
   <url>
     <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-basics/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.197Z</lastmod>
+    <lastmod>2026-03-28T14:19:07.879Z</lastmod>
   </url>
   <url>
-    <loc>https://noahweidig.github.io/chartifyr/index.html</loc>
-    <lastmod>2026-02-24T02:26:10.192Z</lastmod>
+    <loc>https://noahweidig.github.io/chartifyr/posts/dplyr-joins/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.885Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/multiplot/index.html</loc>
+    <lastmod>2026-03-28T14:21:47.723Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.893Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.874Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/palettes/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.873Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/welcome/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.927Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/posts/ggplot-basics/index.html</loc>
+    <lastmod>2026-03-28T14:19:07.890Z</lastmod>
+  </url>
+  <url>
+    <loc>https://noahweidig.github.io/chartifyr/about.html</loc>
+    <lastmod>2026-03-28T14:19:07.739Z</lastmod>
   </url>
 </urlset>
