@@ -66,12 +66,7 @@ body {
 }
 
 .navbar-logo {
-  max-height: 52px;
-  transition: transform var(--transition);
-}
-
-.navbar-logo:hover {
-  transform: scale(1.05);
+  max-height: 48px;
 }
 
 .navbar .aa-DetachedSearchButton,
@@ -355,17 +350,23 @@ div.callout {
   background: rgba(91,106,191,0.18);
 }
 
-/* ---------- Smooth scroll ---------- */
-html {
-  scroll-behavior: smooth;
-}
+/* ---------- Mobile navbar ---------- */
+@media (max-width: 991.98px) {
+  /* Keep the brand (logo + title) visible alongside the toggler */
+  .navbar > .container-fluid {
+    flex-wrap: nowrap;
+  }
 
-/* ---------- Page transition fade-in ---------- */
-#quarto-content {
-  animation: fadeUp 0.4s ease-out;
-}
+  .navbar .navbar-brand-container {
+    margin-right: auto;
+  }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  .navbar .navbar-title {
+    display: inline !important;
+    font-size: 1.1rem;
+  }
+
+  .navbar-logo {
+    max-height: 40px;
+  }
 }

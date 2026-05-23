@@ -12,16 +12,22 @@ website:
     type: textbox
   navbar:
     logo: "chartifyr-logo.svg"
+    title: "ChartifyR"
     pinned: true
+    collapse-below: lg
     right:
-      - about.qmd
-      - icon: github
+      - text: About
+        href: about.qmd
+      - text: GitHub
+        icon: github
         href: https://github.com/noahweidig/
         aria-label: GitHub
-      - icon: linkedin
+      - text: LinkedIn
+        icon: linkedin
         href: https://linkedin.com/in/noahweidig/
         aria-label: LinkedIn
-      - icon: rss
+      - text: RSS
+        icon: rss
         href: index.xml
         aria-label: RSS Feed
   page-footer:
