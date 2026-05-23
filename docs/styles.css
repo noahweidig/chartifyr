@@ -352,40 +352,92 @@ div.callout {
 
 /* ---------- Mobile navbar ---------- */
 @media (max-width: 991.98px) {
-  /* Brand on the left, search + hamburger on the right, on one row */
+  /* Top row holds brand + search + hamburger; the collapse menu wraps to a
+     full-width row *below* it (Bootstrap's natural behaviour). */
   .navbar .navbar-container {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
+    row-gap: 0;
   }
 
-  /* Push everything after the brand to the right */
+  /* Brand stays pinned to the left and is never centered. */
   .navbar .navbar-brand-container {
-    margin-right: auto;
-    order: 0;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    min-width: 0; /* the row gives up space, not the title */
   }
 
-  /* Compact search icon sits just left of the hamburger */
-  .navbar #quarto-search {
-    order: 1;
-    margin-right: 0.5rem;
-  }
-
-  /* Hamburger menu lives on the far right of the bar */
-  .navbar .navbar-toggler {
-    order: 2;
-  }
-
-  .navbar .navbar-collapse {
-    order: 3;
-  }
-
+  /* Title shrinks with the viewport but is never hidden or clipped. */
   .navbar .navbar-title {
     display: inline !important;
-    font-size: 1.1rem;
+    white-space: nowrap;
+    font-size: clamp(0.95rem, 4.2vw, 1.2rem);
   }
 
   .navbar-logo {
-    max-height: 40px;
+    max-height: clamp(28px, 9vw, 40px);
+  }
+
+  /* Compact search icon sits just left of the fixed hamburger. */
+  .navbar #quarto-search {
+    margin-right: 0.5rem;
+    flex: 0 0 auto;
+  }
+
+  /* Hamburger keeps its place on the far right and does not move. */
+  .navbar .navbar-toggler {
+    flex: 0 0 auto;
+    margin: 0;
+    border: none;
+    padding: 0.25rem;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Menu always wraps onto its own full-width row beneath the bar. */
+  .navbar .navbar-collapse {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  /* ----- Hamburger that morphs into an X (no layout shift) ----- */
+  .navbar .navbar-toggler .navbar-toggler-icon {
+    background-image: none;
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: inline-block;
+    /* middle bar */
+    background: linear-gradient(#1a1a2e, #1a1a2e) center / 100% 2px no-repeat;
+    transition: background var(--transition);
+  }
+
+  .navbar .navbar-toggler .navbar-toggler-icon::before,
+  .navbar .navbar-toggler .navbar-toggler-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #1a1a2e;
+    border-radius: 2px;
+    transition: transform var(--transition), top var(--transition);
+  }
+
+  .navbar .navbar-toggler .navbar-toggler-icon::before { top: 0.25rem; }
+  .navbar .navbar-toggler .navbar-toggler-icon::after  { top: 1.05rem; }
+
+  /* Expanded → the two outer bars rotate into an X, middle bar fades. */
+  .navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    background-image: none;
+  }
+  .navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+    top: 0.65rem;
+    transform: rotate(45deg);
+  }
+  .navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+    top: 0.65rem;
+    transform: rotate(-45deg);
   }
 
   /* When the bar is too narrow, search is relocated into the open menu
@@ -398,7 +450,6 @@ div.callout {
   }
 
   .navbar-search-menu-item #quarto-search {
-    order: 0;
     margin-right: 0;
   }
 

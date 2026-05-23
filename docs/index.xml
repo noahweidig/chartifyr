@@ -9,7 +9,7 @@
 <link>https://noahweidig.github.io/chartifyr/</link>
 <atom:link href="https://noahweidig.github.io/chartifyr/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.9.37</generator>
+<generator>quarto-1.6.40</generator>
 <lastBuildDate>Sat, 28 Mar 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Multi-Panel Plots in R</title>
@@ -27,7 +27,7 @@
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment to install any missing packages</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -54,7 +54,7 @@ font-style: inherit;">library</span>(cowplot)</span>
 background-color: null;
 font-style: inherit;">&lt;-</span> palmerpenguins<span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">::</span>penguins</span></code></pre></div></div>
+font-style: inherit;">::</span>penguins</span></code></pre></div>
 </details>
 </div>
 </section>
@@ -67,7 +67,7 @@ font-style: inherit;">::</span>penguins</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -146,7 +146,7 @@ font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"none"</span>)</span></code></pre></div></div>
+font-style: inherit;">"none"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -160,7 +160,7 @@ font-style: inherit;">"none"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -244,7 +244,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb3-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_bw</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -260,7 +260,7 @@ font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -357,7 +357,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb4-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_bw</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -375,7 +375,7 @@ font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(</span>
 <span id="cb5-2">  penguins <span class="sc" style="color: #5E5E5E;
@@ -467,7 +467,7 @@ font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"bottom"</span>)</span></code></pre></div></div>
+font-style: inherit;">"bottom"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -481,7 +481,7 @@ font-style: inherit;">"bottom"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># One row of columns (equivalent to facet_wrap with fixed layout)</span></span>
 <span id="cb6-2"><span class="fu" style="color: #4758AB;
@@ -560,7 +560,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb6-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_bw</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -618,7 +618,7 @@ font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">p_scatter <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">p_scatter <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -845,7 +845,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb7-24">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_bw</span>()</span></code></pre></div>
 </details>
 </div>
 <section id="patchwork" class="level2">
@@ -854,12 +854,12 @@ font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Side by side</span></span>
 <span id="cb8-2">p_scatter <span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">+</span> p_box</span></code></pre></div></div>
+font-style: inherit;">+</span> p_box</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -872,12 +872,12 @@ font-style: inherit;">+</span> p_box</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Stacked</span></span>
 <span id="cb9-2">p_scatter <span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">/</span> p_box</span></code></pre></div></div>
+font-style: inherit;">/</span> p_box</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -893,7 +893,7 @@ font-style: inherit;">/</span> p_box</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">(p_scatter <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">(p_scatter <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|</span> p_box <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -912,7 +912,7 @@ font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>))</span></code></pre></div></div>
+font-style: inherit;">1</span>))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -925,7 +925,7 @@ font-style: inherit;">1</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># A 2×2 grid with shared legend collected at the bottom</span></span>
 <span id="cb11-2">(p_scatter <span class="sc" style="color: #5E5E5E;
@@ -952,7 +952,7 @@ font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"bottom"</span>)</span></code></pre></div></div>
+font-style: inherit;">"bottom"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -969,7 +969,7 @@ font-style: inherit;">"bottom"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">(p_scatter <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">(p_scatter <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> p_box) <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1014,7 +1014,7 @@ font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"bottom"</span>)</span></code></pre></div></div>
+font-style: inherit;">"bottom"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1031,7 +1031,7 @@ font-style: inherit;">"bottom"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">right_column <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">right_column <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> p_box <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -1039,7 +1039,7 @@ font-style: inherit;">/</span> p_bar</span>
 <span id="cb13-2"></span>
 <span id="cb13-3">p_scatter <span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">|</span> right_column</span></code></pre></div></div>
+font-style: inherit;">|</span> right_column</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1057,13 +1057,13 @@ font-style: inherit;">|</span> right_column</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">plot_grid</span>(p_scatter, p_box, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">ncol =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>)</span></code></pre></div></div>
+font-style: inherit;">2</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1076,7 +1076,7 @@ font-style: inherit;">2</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Add panel labels</span></span>
 <span id="cb15-2"><span class="fu" style="color: #4758AB;
@@ -1104,7 +1104,7 @@ font-style: inherit;">12</span>,</span>
 background-color: null;
 font-style: inherit;">ncol =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">2</span>)</span></code></pre></div></div>
+font-style: inherit;">2</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1120,7 +1120,7 @@ font-style: inherit;">2</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">plot_grid</span>(p_scatter, p_box,</span>
 <span id="cb16-2">          <span class="at" style="color: #657422;
@@ -1141,7 +1141,7 @@ font-style: inherit;">1</span>),</span>
 background-color: null;
 font-style: inherit;">labels =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"AUTO"</span>)</span></code></pre></div></div>
+font-style: inherit;">"AUTO"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1158,7 +1158,7 @@ font-style: inherit;">"AUTO"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Build plots without their own legends</span></span>
 <span id="cb17-2">p_scatter_noleg <span class="ot" style="color: #003B4F;
@@ -1231,7 +1231,7 @@ font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">0.15</span>))</span></code></pre></div></div>
+font-style: inherit;">0.15</span>))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1248,7 +1248,7 @@ font-style: inherit;">0.15</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">plot_grid</span>(p_scatter, p_box, p_hist,</span>
 <span id="cb18-2">          <span class="at" style="color: #657422;
@@ -1265,7 +1265,7 @@ font-style: inherit;">3</span>,</span>
 background-color: null;
 font-style: inherit;">labels =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"AUTO"</span>)</span></code></pre></div></div>
+font-style: inherit;">"AUTO"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1338,7 +1338,7 @@ font-style: inherit;">"AUTO"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1">p_faceted <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1">p_faceted <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1537,7 +1537,7 @@ background-color: null;
 font-style: inherit;">tag_levels =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"A"</span></span>
-<span id="cb19-32">  )</span></code></pre></div></div>
+<span id="cb19-32">  )</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1637,7 +1637,7 @@ font-style: inherit;">"A"</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment to install any missing packages</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -1700,21 +1700,21 @@ background-color: null;
 font-style: inherit;">library</span>(palmerpenguins)</span>
 <span id="cb1-22"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(khroma)</span></code></pre></div></div>
+font-style: inherit;">library</span>(khroma)</span></code></pre></div>
 </details>
 </div>
 <p>We will rely on the <strong>palmerpenguins</strong> dataset for most examples. It gives us both categorical variables (<code>species</code>, <code>island</code>) and continuous ones (<code>bill_length_mm</code>, <code>body_mass_g</code>).</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">penguins <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">penguins <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> palmerpenguins<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span>penguins</span>
 <span id="cb2-2"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">glimpse</span>(penguins)</span></code></pre></div></div>
+font-style: inherit;">glimpse</span>(penguins)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 344
@@ -1741,7 +1741,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Continuous: bill length mapped to a gradient</span></span>
 <span id="cb4-2">p_cont <span class="ot" style="color: #003B4F;
@@ -1849,7 +1849,7 @@ font-style: inherit;">+</span></span>
 background-color: null;
 font-style: inherit;">theme_classic</span>()</span>
 <span id="cb4-16"></span>
-<span id="cb4-17">p_cont</span></code></pre></div></div>
+<span id="cb4-17">p_cont</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1860,7 +1860,7 @@ font-style: inherit;">theme_classic</span>()</span>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">p_disc</span></code></pre></div></div>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">p_disc</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1880,7 +1880,7 @@ font-style: inherit;">theme_classic</span>()</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(faithfuld, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1914,7 +1914,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb6-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1927,7 +1927,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1983,7 +1983,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb7-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2027,7 +2027,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Display available palettes</span></span>
 <span id="cb8-2"><span class="fu" style="color: #4758AB;
@@ -2036,7 +2036,7 @@ font-style: inherit;">display.brewer.all</span>(<span class="at" style="color: #
 background-color: null;
 font-style: inherit;">n =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">8</span>)</span></code></pre></div></div>
+font-style: inherit;">8</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2049,7 +2049,7 @@ font-style: inherit;">8</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2114,7 +2114,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb9-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2127,7 +2127,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2183,7 +2183,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb10-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2201,7 +2201,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2256,7 +2256,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb11-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2269,7 +2269,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(faithfuld, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2303,7 +2303,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb12-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2317,7 +2317,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">colorspace<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">colorspace<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2331,7 +2331,7 @@ font-style: inherit;">256</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">palette =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"ag_Sunset"</span>))</span></code></pre></div></div>
+font-style: inherit;">"ag_Sunset"</span>))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2349,7 +2349,7 @@ font-style: inherit;">"ag_Sunset"</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2405,7 +2405,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb14-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2418,7 +2418,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2485,7 +2485,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb15-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2503,7 +2503,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(faithfuld, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2539,7 +2539,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb16-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2552,7 +2552,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2610,7 +2610,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb17-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2628,7 +2628,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2684,7 +2684,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb18-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2697,7 +2697,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2758,7 +2758,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb19-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2776,7 +2776,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2835,7 +2835,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb20-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2848,7 +2848,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2908,7 +2908,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb21-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2926,7 +2926,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2980,7 +2980,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb22-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -2993,7 +2993,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3040,7 +3040,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb23-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3058,7 +3058,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3116,7 +3116,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb24-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3129,7 +3129,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(faithfuld, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3165,7 +3165,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb25-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3183,7 +3183,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3237,7 +3237,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb26-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3250,7 +3250,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3309,7 +3309,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb27-8">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3326,7 +3326,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Create some NAs for demonstration</span></span>
 <span id="cb28-2">penguins_na <span class="ot" style="color: #003B4F;
@@ -3417,7 +3417,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb28-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3442,7 +3442,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># mtcars has many cylinder + gear combos — let's create a busy variable</span></span>
 <span id="cb29-2">mtcars_busy <span class="ot" style="color: #003B4F;
@@ -3513,7 +3513,7 @@ font-style: inherit;">element_text</span>(<span class="at" style="color: #657422
 background-color: null;
 font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">5</span>))</span></code></pre></div></div>
+font-style: inherit;">5</span>))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3529,7 +3529,7 @@ font-style: inherit;">5</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">penguins_islands <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">penguins_islands <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3616,7 +3616,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb30-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3632,7 +3632,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3687,7 +3687,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb31-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3703,7 +3703,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3761,7 +3761,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb32-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3777,7 +3777,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1">penguins_hl <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1">penguins_hl <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3871,7 +3871,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb33-11">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3901,7 +3901,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Create a base plot</span></span>
 <span id="cb34-2">p_base <span class="ot" style="color: #003B4F;
@@ -3990,7 +3990,7 @@ font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">title =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Original"</span>)</span></code></pre></div></div>
+font-style: inherit;">"Original"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4001,7 +4001,7 @@ font-style: inherit;">"Original"</span>)</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb35" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Simulate deuteranopia (red-green deficiency)</span></span>
 <span id="cb35-2"><span class="co" style="color: #5E5E5E;
@@ -4044,7 +4044,7 @@ font-style: inherit;">150</span>)</span>
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">cvd_emulator</span>(tmp_plot)</span></code></pre></div></div>
+font-style: inherit;">cvd_emulator</span>(tmp_plot)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Convert deutan          -&gt; /var/folders/03/d3dmjds91_vckyhkgdt677300000gn/T//RtmpSVvF9F/deutan_file7e027e5356fa.png
@@ -4060,7 +4060,7 @@ Convert desaturate      -&gt; /var/folders/03/d3dmjds91_vckyhkgdt677300000gn/T//
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb37" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(penguins, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -4118,7 +4118,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb37-7">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4138,7 +4138,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Don't do this</span></span>
 <span id="cb38-2"><span class="fu" style="color: #4758AB;
@@ -4177,7 +4177,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb38-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4188,7 +4188,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb39" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Do this instead</span></span>
 <span id="cb39-2"><span class="fu" style="color: #4758AB;
@@ -4221,7 +4221,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb39-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4238,7 +4238,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Low contrast</span></span>
 <span id="cb40-2"><span class="fu" style="color: #4758AB;
@@ -4293,7 +4293,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb40-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4304,7 +4304,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb41" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Better contrast</span></span>
 <span id="cb41-2"><span class="fu" style="color: #4758AB;
@@ -4353,7 +4353,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb41-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4370,7 +4370,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Misleading: diverging scale on body mass (no natural midpoint)</span></span>
 <span id="cb42-2"><span class="fu" style="color: #4758AB;
@@ -4434,7 +4434,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb42-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4445,7 +4445,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Correct: sequential scale</span></span>
 <span id="cb43-2"><span class="fu" style="color: #4758AB;
@@ -4505,7 +4505,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb43-9">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4701,7 +4701,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment and run once if needed</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -4710,7 +4710,7 @@ font-style: inherit;"># install.packages("tidyverse")</span></span>
 <span id="cb1-3"></span>
 <span id="cb1-4"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
 </details>
 </div>
 </section>
@@ -4720,7 +4720,7 @@ font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Bird observations at field sites</span></span>
 <span id="cb2-2">observations <span class="ot" style="color: #003B4F;
@@ -4769,7 +4769,7 @@ background-color: null;
 font-style: inherit;">15</span>)</span>
 <span id="cb2-6">)</span>
 <span id="cb2-7"></span>
-<span id="cb2-8">observations</span></code></pre></div></div>
+<span id="cb2-8">observations</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 x 3
@@ -4784,7 +4784,7 @@ font-style: inherit;">15</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Habitat data for field sites</span></span>
 <span id="cb4-2">habitat <span class="ot" style="color: #003B4F;
@@ -4833,7 +4833,7 @@ background-color: null;
 font-style: inherit;">900</span>)</span>
 <span id="cb4-6">)</span>
 <span id="cb4-7"></span>
-<span id="cb4-8">habitat</span></code></pre></div></div>
+<span id="cb4-8">habitat</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 x 3
@@ -4854,7 +4854,7 @@ font-style: inherit;">900</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Keep all observations, attach habitat info where available</span></span>
 <span id="cb6-2">observations <span class="sc" style="color: #5E5E5E;
@@ -4866,7 +4866,7 @@ font-style: inherit;">left_join</span>(habitat, <span class="at" style="color: #
 background-color: null;
 font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 x 5
@@ -4892,7 +4892,7 @@ font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Keep only sites present in both tables</span></span>
 <span id="cb8-2">observations <span class="sc" style="color: #5E5E5E;
@@ -4904,7 +4904,7 @@ font-style: inherit;">inner_join</span>(habitat, <span class="at" style="color: 
 background-color: null;
 font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 x 5
@@ -4929,7 +4929,7 @@ font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Keep everything from both tables</span></span>
 <span id="cb10-2">observations <span class="sc" style="color: #5E5E5E;
@@ -4941,7 +4941,7 @@ font-style: inherit;">full_join</span>(habitat, <span class="at" style="color: #
 background-color: null;
 font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 x 5
@@ -4969,7 +4969,7 @@ font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Multiple observations per site</span></span>
 <span id="cb12-2">obs_multi <span class="ot" style="color: #003B4F;
@@ -5024,7 +5024,7 @@ background-color: null;
 font-style: inherit;">9</span>)</span>
 <span id="cb12-6">)</span>
 <span id="cb12-7"></span>
-<span id="cb12-8">obs_multi</span></code></pre></div></div>
+<span id="cb12-8">obs_multi</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 x 3
@@ -5040,7 +5040,7 @@ font-style: inherit;">9</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Multiple habitat records per site (e.g., sub-habitats)</span></span>
 <span id="cb14-2">hab_multi <span class="ot" style="color: #003B4F;
@@ -5083,7 +5083,7 @@ background-color: null;
 font-style: inherit;">120</span>)</span>
 <span id="cb14-6">)</span>
 <span id="cb14-7"></span>
-<span id="cb14-8">hab_multi</span></code></pre></div></div>
+<span id="cb14-8">hab_multi</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 x 3
@@ -5097,7 +5097,7 @@ font-style: inherit;">120</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Many-to-many join: row explosion</span></span>
 <span id="cb16-2">obs_multi <span class="sc" style="color: #5E5E5E;
@@ -5113,7 +5113,7 @@ font-style: inherit;">"site_id"</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">relationship =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"many-to-many"</span>)</span></code></pre></div></div>
+font-style: inherit;">"many-to-many"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 x 5
@@ -5134,7 +5134,7 @@ font-style: inherit;">"many-to-many"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Count how many times each key appears</span></span>
 <span id="cb18-2">obs_multi <span class="sc" style="color: #5E5E5E;
@@ -5151,7 +5151,7 @@ font-style: inherit;">filter</span>(n <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div></div>
+font-style: inherit;">1</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 x 2
@@ -5164,7 +5164,7 @@ font-style: inherit;">1</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">hab_multi <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">hab_multi <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb20-2">  <span class="fu" style="color: #4758AB;
@@ -5178,7 +5178,7 @@ font-style: inherit;">filter</span>(n <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div></div>
+font-style: inherit;">1</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 x 2
@@ -5197,7 +5197,7 @@ font-style: inherit;">1</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Which observations have no habitat data?</span></span>
 <span id="cb22-2">observations <span class="sc" style="color: #5E5E5E;
@@ -5209,7 +5209,7 @@ font-style: inherit;">anti_join</span>(habitat, <span class="at" style="color: #
 background-color: null;
 font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 x 3
@@ -5221,7 +5221,7 @@ font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Which habitats have no observations?</span></span>
 <span id="cb24-2">habitat <span class="sc" style="color: #5E5E5E;
@@ -5233,7 +5233,7 @@ font-style: inherit;">anti_join</span>(observations, <span class="at" style="col
 background-color: null;
 font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
+font-style: inherit;">"site_id"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 x 3
@@ -5250,7 +5250,7 @@ font-style: inherit;">"site_id"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Check if site_id is unique in each table</span></span>
 <span id="cb26-2">observations <span class="sc" style="color: #5E5E5E;
@@ -5267,7 +5267,7 @@ font-style: inherit;">filter</span>(n <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div></div>
+font-style: inherit;">1</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 0 x 2
@@ -5282,19 +5282,19 @@ font-style: inherit;">1</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Before</span></span>
 <span id="cb28-2"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>(observations)</span></code></pre></div></div>
+font-style: inherit;">nrow</span>(observations)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># After left_join</span></span>
 <span id="cb30-2">result <span class="ot" style="color: #003B4F;
@@ -5312,7 +5312,7 @@ font-style: inherit;">"site_id"</span>)</span>
 <span id="cb30-4"></span>
 <span id="cb30-5"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>(result)</span></code></pre></div></div>
+font-style: inherit;">nrow</span>(result)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
@@ -5327,7 +5327,7 @@ font-style: inherit;">nrow</span>(result)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># left_join introduces NAs for site D</span></span>
 <span id="cb32-2">joined <span class="ot" style="color: #003B4F;
@@ -5343,7 +5343,7 @@ font-style: inherit;">by =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"site_id"</span>)</span>
 <span id="cb32-4"></span>
-<span id="cb32-5">joined</span></code></pre></div></div>
+<span id="cb32-5">joined</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 x 5
@@ -5358,7 +5358,7 @@ font-style: inherit;">"site_id"</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Replace NA habitat_type with "Unknown"</span></span>
 <span id="cb34-2">joined <span class="sc" style="color: #5E5E5E;
@@ -5372,7 +5372,7 @@ font-style: inherit;">habitat_type =</span> <span class="fu" style="color: #4758
 background-color: null;
 font-style: inherit;">replace_na</span>(habitat_type, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Unknown"</span>))</span></code></pre></div></div>
+font-style: inherit;">"Unknown"</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 x 5
@@ -5387,7 +5387,7 @@ font-style: inherit;">"Unknown"</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Replace multiple columns at once using across()</span></span>
 <span id="cb36-2">joined <span class="sc" style="color: #5E5E5E;
@@ -5410,7 +5410,7 @@ background-color: null;
 font-style: inherit;">replace_na</span>(elevation_m, <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>)</span>
-<span id="cb36-6">  )</span></code></pre></div></div>
+<span id="cb36-6">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 x 5
@@ -5476,7 +5476,7 @@ font-style: inherit;">0</span>)</span>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" class="img-fluid figure-img"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/images/tidyr.jpg" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -5487,9 +5487,9 @@ font-style: inherit;">0</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
 </details>
 </div>
 <p>We’ll use two built-in datasets throughout this post:</p>
@@ -5500,7 +5500,7 @@ font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">who2</span></code></pre></div></div>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">who2</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,240 × 58
@@ -5528,11 +5528,11 @@ font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">starwars <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">starwars <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">select</span>(name, height, mass, skin_color, homeworld)</span></code></pre></div></div>
+font-style: inherit;">select</span>(name, height, mass, skin_color, homeworld)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 87 × 5
@@ -5558,7 +5558,7 @@ font-style: inherit;">select</span>(name, height, mass, skin_color, homeworld)</
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">who2 <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">who2 <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5568,7 +5568,7 @@ font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">head</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">20</span>)</span></code></pre></div></div>
+font-style: inherit;">20</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "country"   "year"      "sp_m_014"  "sp_m_1524" "sp_m_2534" "sp_m_3544"
@@ -5581,7 +5581,7 @@ font-style: inherit;">20</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">who_long <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">who_long <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> who2 <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -5613,7 +5613,7 @@ background-color: null;
 font-style: inherit;">TRUE</span></span>
 <span id="cb8-7">  )</span>
 <span id="cb8-8"></span>
-<span id="cb8-9">who_long</span></code></pre></div></div>
+<span id="cb8-9">who_long</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 76,046 × 4
@@ -5639,7 +5639,7 @@ font-style: inherit;">TRUE</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">who_tidy <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">who_tidy <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> who2 <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -5682,7 +5682,7 @@ background-color: null;
 font-style: inherit;">TRUE</span></span>
 <span id="cb10-8">  )</span>
 <span id="cb10-9"></span>
-<span id="cb10-10">who_tidy</span></code></pre></div></div>
+<span id="cb10-10">who_tidy</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 76,046 × 6
@@ -5710,7 +5710,7 @@ font-style: inherit;">TRUE</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">who_tidy <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">who_tidy <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb12-2">  <span class="fu" style="color: #4758AB;
@@ -5740,7 +5740,7 @@ font-style: inherit;">names_from =</span> sex,</span>
 <span id="cb12-6">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">values_from =</span> total</span>
-<span id="cb12-7">  )</span></code></pre></div></div>
+<span id="cb12-7">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
@@ -5762,7 +5762,7 @@ font-style: inherit;">values_from =</span> total</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">messy_locations <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">messy_locations <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5812,7 +5812,7 @@ background-color: null;
 font-style: inherit;">"country_code"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"city"</span>)</span>
-<span id="cb14-11">  )</span></code></pre></div></div>
+<span id="cb14-11">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
@@ -5828,7 +5828,7 @@ font-style: inherit;">"city"</span>)</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">tricky <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">tricky <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5888,7 +5888,7 @@ background-color: null;
 font-style: inherit;">too_many =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"merge"</span></span>
-<span id="cb16-13">  )</span></code></pre></div></div>
+<span id="cb16-13">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
@@ -5907,7 +5907,7 @@ font-style: inherit;">"merge"</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">who_tidy <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">who_tidy <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb18-2">  <span class="fu" style="color: #4758AB;
@@ -5928,7 +5928,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb18-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">head</span>()</span></code></pre></div></div>
+font-style: inherit;">head</span>()</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
@@ -5954,7 +5954,7 @@ font-style: inherit;">head</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Which Star Wars characters have "Skywalker" in their name?</span></span>
 <span id="cb20-2">starwars <span class="sc" style="color: #5E5E5E;
@@ -5966,7 +5966,7 @@ font-style: inherit;">filter</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">str_detect</span>(name, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Skywalker"</span>))</span></code></pre></div></div>
+font-style: inherit;">"Skywalker"</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 14
@@ -5982,7 +5982,7 @@ font-style: inherit;">"Skywalker"</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Find characters with multiple skin colors (contain a comma)</span></span>
 <span id="cb22-2">starwars <span class="sc" style="color: #5E5E5E;
@@ -5999,7 +5999,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb22-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div></div>
+font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 14 × 2
@@ -6028,7 +6028,7 @@ font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div><
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">starwars <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">starwars <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb24-2">  <span class="fu" style="color: #4758AB;
@@ -6055,7 +6055,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb24-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div></div>
+font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 14 × 2
@@ -6081,7 +6081,7 @@ font-style: inherit;">select</span>(name, skin_color)</span></code></pre></div><
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">raw_labels <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">raw_labels <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -6139,7 +6139,7 @@ background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"united states"</span></span>
-<span id="cb26-9">  ))</span></code></pre></div></div>
+<span id="cb26-9">  ))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "united states" "united states" "united states" "united states"
@@ -6153,7 +6153,7 @@ font-style: inherit;">"united states"</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">who_tidy <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">who_tidy <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb28-2">  <span class="fu" style="color: #4758AB;
@@ -6184,7 +6184,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb28-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">arrange</span>(age_start)</span></code></pre></div></div>
+font-style: inherit;">arrange</span>(age_start)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 2
@@ -6206,7 +6206,7 @@ font-style: inherit;">arrange</span>(age_start)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">messy_names <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">messy_names <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -6225,21 +6225,21 @@ background-color: null;
 font-style: inherit;"># str_trim removes leading/trailing whitespace</span></span>
 <span id="cb30-4"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">str_trim</span>(messy_names)</span></code></pre></div></div>
+font-style: inherit;">str_trim</span>(messy_names)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Alice"   "Bob"     "Charlie" "Alice"  </code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># str_squish also collapses internal whitespace</span></span>
 <span id="cb32-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">str_squish</span>(<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"  too   many   spaces  "</span>)</span></code></pre></div></div>
+font-style: inherit;">"  too   many   spaces  "</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "too many spaces"</code></pre>
@@ -6256,7 +6256,7 @@ font-style: inherit;">"  too   many   spaces  "</span>)</span></code></pre></div
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Simulate the problem</span></span>
 <span id="cb34-2">species_factor <span class="ot" style="color: #003B4F;
@@ -6289,21 +6289,21 @@ background-color: null;
 font-style: inherit;"># "bird" is gone from the data but still in the levels</span></span>
 <span id="cb34-6"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">levels</span>(filtered)</span></code></pre></div></div>
+font-style: inherit;">levels</span>(filtered)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "bird" "cat"  "dog" </code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Fix: drop unused levels</span></span>
 <span id="cb36-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">levels</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">droplevels</span>(filtered))</span></code></pre></div></div>
+font-style: inherit;">droplevels</span>(filtered))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "cat" "dog"</code></pre>
@@ -6317,7 +6317,7 @@ font-style: inherit;">droplevels</span>(filtered))</span></code></pre></div></di
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># This returns nothing — NA == NA is NA, not TRUE</span></span>
 <span id="cb38-2">starwars <span class="sc" style="color: #5E5E5E;
@@ -6334,14 +6334,14 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb38-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>()</span></code></pre></div></div>
+font-style: inherit;">nrow</span>()</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># This is what you actually want</span></span>
 <span id="cb40-2">starwars <span class="sc" style="color: #5E5E5E;
@@ -6361,7 +6361,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb40-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">head</span>()</span></code></pre></div></div>
+font-style: inherit;">head</span>()</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
@@ -6379,7 +6379,7 @@ font-style: inherit;">head</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Without na.rm — returns NA</span></span>
 <span id="cb42-2">starwars <span class="sc" style="color: #5E5E5E;
@@ -6391,7 +6391,7 @@ font-style: inherit;">summarize</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">avg_height =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">mean</span>(height))</span></code></pre></div></div>
+font-style: inherit;">mean</span>(height))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
@@ -6401,7 +6401,7 @@ font-style: inherit;">mean</span>(height))</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># With na.rm — returns the actual mean</span></span>
 <span id="cb44-2">starwars <span class="sc" style="color: #5E5E5E;
@@ -6417,7 +6417,7 @@ font-style: inherit;">mean</span>(height, <span class="at" style="color: #657422
 background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">TRUE</span>))</span></code></pre></div></div>
+font-style: inherit;">TRUE</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
@@ -6430,7 +6430,7 @@ font-style: inherit;">TRUE</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1">starwars <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1">starwars <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb46-2">  <span class="fu" style="color: #4758AB;
@@ -6455,7 +6455,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb46-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">head</span>()</span></code></pre></div></div>
+font-style: inherit;">head</span>()</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
@@ -6476,7 +6476,7 @@ font-style: inherit;">head</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1">who_tidy <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1">who_tidy <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb48-2">  <span class="fu" style="color: #4758AB;
@@ -6497,7 +6497,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb48-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>()</span></code></pre></div></div>
+font-style: inherit;">nrow</span>()</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
@@ -6512,7 +6512,7 @@ font-style: inherit;">nrow</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1">who2 <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1">who2 <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb50-2">  <span class="co" style="color: #5E5E5E;
@@ -6668,7 +6668,7 @@ font-style: inherit;">|&gt;</span></span>
 background-color: null;
 font-style: inherit;">head</span>(<span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">10</span>)</span></code></pre></div></div>
+font-style: inherit;">10</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 4
@@ -6787,7 +6787,7 @@ font-style: inherit;">10</span>)</span></code></pre></div></div>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" class="img-fluid figure-img"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/dplyr-basics/images/dplyr_wrangling.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -6798,7 +6798,7 @@ font-style: inherit;">10</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment and run these once</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -6813,14 +6813,14 @@ background-color: null;
 font-style: inherit;">library</span>(tidyverse)</span>
 <span id="cb1-6"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(palmerpenguins)</span></code></pre></div></div>
+font-style: inherit;">library</span>(palmerpenguins)</span></code></pre></div>
 </details>
 </div>
 <p>Let’s take a look at the data.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">penguins</span></code></pre></div></div>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">penguins</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 8
@@ -6848,26 +6848,26 @@ font-style: inherit;">library</span>(palmerpenguins)</span></code></pre></div></
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Without the pipe</span></span>
 <span id="cb4-2"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>(penguins)</span></code></pre></div></div>
+font-style: inherit;">nrow</span>(penguins)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 344</code></pre>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># With the pipe — same result</span></span>
 <span id="cb6-2">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">nrow</span>()</span></code></pre></div></div>
+font-style: inherit;">nrow</span>()</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 344</code></pre>
@@ -6881,7 +6881,7 @@ font-style: inherit;">nrow</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb8-2">  <span class="fu" style="color: #4758AB;
@@ -6890,7 +6890,7 @@ font-style: inherit;">filter</span>(species <span class="sc" style="color: #5E5E
 background-color: null;
 font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Adelie"</span>)</span></code></pre></div></div>
+font-style: inherit;">"Adelie"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 152 × 8
@@ -6914,7 +6914,7 @@ font-style: inherit;">"Adelie"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb10-2">  <span class="fu" style="color: #4758AB;
@@ -6927,7 +6927,7 @@ font-style: inherit;">"Adelie"</span>, body_mass_g <span class="sc" style="color
 background-color: null;
 font-style: inherit;">&gt;</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">4000</span>)</span></code></pre></div></div>
+font-style: inherit;">4000</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 35 × 8
@@ -6951,7 +6951,7 @@ font-style: inherit;">4000</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb12-2">  <span class="fu" style="color: #4758AB;
@@ -6966,7 +6966,7 @@ font-style: inherit;">|</span> island <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">==</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Dream"</span>)</span></code></pre></div></div>
+font-style: inherit;">"Dream"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 292 × 8
@@ -6990,7 +6990,7 @@ font-style: inherit;">"Dream"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb14-2">  <span class="fu" style="color: #4758AB;
@@ -7003,7 +7003,7 @@ font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Biscoe"</span>, <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Dream"</span>))</span></code></pre></div></div>
+font-style: inherit;">"Dream"</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 292 × 8
@@ -7030,12 +7030,12 @@ font-style: inherit;">"Dream"</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb16-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">select</span>(species, island, body_mass_g)</span></code></pre></div></div>
+font-style: inherit;">select</span>(species, island, body_mass_g)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 3
@@ -7058,14 +7058,14 @@ font-style: inherit;">select</span>(species, island, body_mass_g)</span></code><
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb18-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">select</span>(<span class="sc" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">-</span>year)</span></code></pre></div></div>
+font-style: inherit;">-</span>year)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 7
@@ -7089,7 +7089,7 @@ font-style: inherit;">-</span>year)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb20-2">  <span class="fu" style="color: #4758AB;
@@ -7098,7 +7098,7 @@ font-style: inherit;">select</span>(species, <span class="fu" style="color: #475
 background-color: null;
 font-style: inherit;">starts_with</span>(<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"bill"</span>))</span></code></pre></div></div>
+font-style: inherit;">"bill"</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 3
@@ -7124,7 +7124,7 @@ font-style: inherit;">"bill"</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb22-2">  <span class="fu" style="color: #4758AB;
@@ -7140,7 +7140,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb22-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">select</span>(species, body_mass_g, body_mass_kg)</span></code></pre></div></div>
+font-style: inherit;">select</span>(species, body_mass_g, body_mass_kg)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 3
@@ -7163,7 +7163,7 @@ font-style: inherit;">select</span>(species, body_mass_g, body_mass_kg)</span></
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb24-2">  <span class="fu" style="color: #4758AB;
@@ -7186,7 +7186,7 @@ background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb24-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">select</span>(species, body_mass_kg, bill_ratio)</span></code></pre></div></div>
+font-style: inherit;">select</span>(species, body_mass_kg, bill_ratio)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 3
@@ -7212,12 +7212,12 @@ font-style: inherit;">select</span>(species, body_mass_kg, bill_ratio)</span></c
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb26" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb26-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">arrange</span>(body_mass_g)</span></code></pre></div></div>
+font-style: inherit;">arrange</span>(body_mass_g)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 8
@@ -7241,14 +7241,14 @@ font-style: inherit;">arrange</span>(body_mass_g)</span></code></pre></div></div
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb28" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb28-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div></div>
+font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 8
@@ -7272,14 +7272,14 @@ font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb30" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb30-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">arrange</span>(species, <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div></div>
+font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 8
@@ -7306,7 +7306,7 @@ font-style: inherit;">desc</span>(body_mass_g))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb32" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb32-2">  <span class="fu" style="color: #4758AB;
@@ -7319,7 +7319,7 @@ font-style: inherit;">mean</span>(body_mass_g, <span class="at" style="color: #6
 background-color: null;
 font-style: inherit;">na.rm =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
-font-style: inherit;">TRUE</span>))</span></code></pre></div></div>
+font-style: inherit;">TRUE</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
@@ -7332,7 +7332,7 @@ font-style: inherit;">TRUE</span>))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb34-2">  <span class="fu" style="color: #4758AB;
@@ -7361,7 +7361,7 @@ background-color: null;
 font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">n</span>()</span>
-<span id="cb34-6">  )</span></code></pre></div></div>
+<span id="cb34-6">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
@@ -7377,7 +7377,7 @@ font-style: inherit;">n</span>()</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb36" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb36-2">  <span class="fu" style="color: #4758AB;
@@ -7411,7 +7411,7 @@ background-color: null;
 font-style: inherit;">n =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">n</span>()</span>
-<span id="cb36-7">  )</span></code></pre></div></div>
+<span id="cb36-7">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
@@ -7426,7 +7426,7 @@ font-style: inherit;">n</span>()</span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb38" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb38-2">  <span class="fu" style="color: #4758AB;
@@ -7456,7 +7456,7 @@ background-color: null;
 font-style: inherit;">.groups =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"drop"</span></span>
-<span id="cb38-7">  )</span></code></pre></div></div>
+<span id="cb38-7">  )</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 4
@@ -7477,7 +7477,7 @@ font-style: inherit;">"drop"</span></span>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1">penguins <span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb40" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1">penguins <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">|&gt;</span></span>
 <span id="cb40-2">  <span class="fu" style="color: #4758AB;
@@ -7522,7 +7522,7 @@ font-style: inherit;">|&gt;</span></span>
 background-color: null;
 font-style: inherit;">arrange</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">desc</span>(mean_flipper))</span></code></pre></div></div>
+font-style: inherit;">desc</span>(mean_flipper))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
@@ -7598,7 +7598,7 @@ font-style: inherit;">desc</span>(mean_flipper))</span></code></pre></div></div>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F077ba65d-1d4e-431d-b719-bda847313d1a_1485x1122.jpeg" class="img-fluid figure-img"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F077ba65d-1d4e-431d-b719-bda847313d1a_1485x1122.jpeg" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -7607,7 +7607,7 @@ font-style: inherit;">desc</span>(mean_flipper))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment and run this only once</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -7618,14 +7618,14 @@ background-color: null;
 font-style: inherit;">library</span>(sf)</span>
 <span id="cb1-4"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
 </details>
 </div>
 <p>Now, we’ll need to load our data. We’ll use the North Carolina counties data built into the sf package.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">nc <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">nc <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7637,7 +7637,7 @@ font-style: inherit;">"shape/nc.shp"</span>, <span class="at" style="color: #657
 background-color: null;
 font-style: inherit;">package =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"sf"</span>))</span></code></pre></div></div>
+font-style: inherit;">"sf"</span>))</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Reading layer `nc' from data source 
@@ -7654,7 +7654,7 @@ Geodetic CRS:  NAD27</code></pre>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7662,7 +7662,7 @@ font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_sf</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">data =</span> nc)</span></code></pre></div></div>
+font-style: inherit;">data =</span> nc)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -7673,7 +7673,7 @@ font-style: inherit;">data =</span> nc)</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># if that does not work, you may have to specify the geometry in the aesthetic</span></span>
 <span id="cb5-2"><span class="fu" style="color: #4758AB;
@@ -7688,7 +7688,7 @@ font-style: inherit;">data =</span> nc, <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">geometry =</span> geometry))</span></code></pre></div></div>
+font-style: inherit;">geometry =</span> geometry))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -7702,7 +7702,7 @@ font-style: inherit;">geometry =</span> geometry))</span></code></pre></div></di
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7714,7 +7714,7 @@ font-style: inherit;">data =</span> nc) <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_void</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -7728,7 +7728,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7744,7 +7744,7 @@ font-style: inherit;">fill =</span> SID79)) <span class="sc" style="color: #5E5E
 background-color: null;
 font-style: inherit;">+</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_void</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -7758,7 +7758,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7787,7 +7787,7 @@ font-style: inherit;">"YlOrBr"</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">direction =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">1</span>)</span></code></pre></div></div>
+font-style: inherit;">1</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -7801,7 +7801,7 @@ font-style: inherit;">1</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(ggspatial)</span>
 <span id="cb9-2"></span>
@@ -7890,7 +7890,7 @@ font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"SIDS 1979"</span>)</span></code></pre></div></div>
+font-style: inherit;">"SIDS 1979"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -7904,7 +7904,7 @@ font-style: inherit;">"SIDS 1979"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggsave</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -7920,7 +7920,7 @@ font-style: inherit;">3</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">dpi =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">300</span>)</span></code></pre></div></div>
+font-style: inherit;">300</span>)</span></code></pre></div>
 </details>
 </div>
 <p>And you’re done! You’ve created your first official map in R!</p>
@@ -7951,7 +7951,7 @@ font-style: inherit;">300</span>)</span></code></pre></div></div>
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/images/ggplot.png" class="img-fluid figure-img"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/ggplot-basics/images/ggplot.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
@@ -7962,7 +7962,7 @@ font-style: inherit;">300</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment and run this line once</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -7974,14 +7974,14 @@ background-color: null;
 font-style: inherit;"># load the package</span></span>
 <span id="cb1-5"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">library</span>(tidyverse)</span></code></pre></div></div>
+font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
 </details>
 </div>
 <p>Next, lets read in our data. We’ll be working with the palmer penguins dataset, which is free and publicly available.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Uncomment and run this line once</span></span>
 <span id="cb2-2"><span class="co" style="color: #5E5E5E;
@@ -7993,16 +7993,16 @@ font-style: inherit;">library</span>(palmerpenguins)</span>
 <span id="cb2-4"></span>
 <span id="cb2-5">data <span class="ot" style="color: #003B4F;
 background-color: null;
-font-style: inherit;">&lt;-</span> penguins</span></code></pre></div></div>
+font-style: inherit;">&lt;-</span> penguins</span></code></pre></div>
 </details>
 </div>
 <p>First, let’s look at the data in a tabular form.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">print</span>(data)</span></code></pre></div></div>
+font-style: inherit;">print</span>(data)</span></code></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 8
@@ -8028,12 +8028,12 @@ font-style: inherit;">print</span>(data)</span></code></pre></div></div>
 <h1>Basic Syntax</h1>
 <p>Let’s create a basic histogram to look at the distribution of this continuous variable.</p>
 <p>To start, you call ggplot(). The first argument is our data.</p>
-<p>I could also code it with data = data, although the first argument with ggplot is always the “data = ” argument.</p>
+<p>I could also code it with data = data, although the first argument with ggplot is always the “data =” argument.</p>
 <p>Next we have to specify the aesthetics. Since a histogram only has an x argument (our continuous variable: body_mass_g, in our case), that’s all we need.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -8041,7 +8041,7 @@ font-style: inherit;">data =</span> data, <span class="fu" style="color: #4758AB
 background-color: null;
 font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">x =</span> body_mass_g))</span></code></pre></div></div>
+font-style: inherit;">x =</span> body_mass_g))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8052,14 +8052,14 @@ font-style: inherit;">x =</span> body_mass_g))</span></code></pre></div></div>
 </div>
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># or</span></span>
 <span id="cb6-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">aes</span>(body_mass_g))</span></code></pre></div></div>
+font-style: inherit;">aes</span>(body_mass_g))</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8073,7 +8073,7 @@ font-style: inherit;">aes</span>(body_mass_g))</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8084,7 +8084,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb7-2">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">geom_histogram</span>()</span></code></pre></div></div>
+font-style: inherit;">geom_histogram</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8098,7 +8098,7 @@ font-style: inherit;">geom_histogram</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8114,7 +8114,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb8-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_bw</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8127,7 +8127,7 @@ font-style: inherit;">theme_bw</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8143,7 +8143,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb9-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8156,7 +8156,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8172,7 +8172,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb10-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_classic</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8185,7 +8185,7 @@ font-style: inherit;">theme_classic</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8201,7 +8201,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb11-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_linedraw</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_linedraw</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8219,7 +8219,7 @@ font-style: inherit;">theme_linedraw</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8239,7 +8239,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb12-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8253,7 +8253,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8271,7 +8271,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb13-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8285,7 +8285,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8307,7 +8307,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb14-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8321,7 +8321,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8347,7 +8347,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span id="cb15-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
+font-style: inherit;">theme_minimal</span>()</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8365,7 +8365,7 @@ font-style: inherit;">theme_minimal</span>()</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(data, <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8411,7 +8411,7 @@ font-style: inherit;">"Frequency"</span>,</span>
 background-color: null;
 font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Species"</span>)</span></code></pre></div></div>
+font-style: inherit;">"Species"</span>)</span></code></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -8438,7 +8438,7 @@ font-style: inherit;">"Species"</span>)</span></code></pre></div></div>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggsave</span>(<span class="st" style="color: #20794D;
 background-color: null;
@@ -8454,7 +8454,7 @@ font-style: inherit;">3</span>, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">dpi =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">300</span>)</span></code></pre></div></div>
+font-style: inherit;">300</span>)</span></code></pre></div>
 </details>
 </div>
 <p>And that’s it! Thanks for reading! Look out for more R tutorials.</p>
@@ -8486,7 +8486,7 @@ font-style: inherit;">300</span>)</span></code></pre></div></div>
 <p>I’m excited to share my knowledge of data science and visualization using R, specifically the <code>tidyverse</code> suite of packages, as well as other languages and tools.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/welcome/images/tidyverse-01.png" class="img-fluid figure-img"></a></p>
+<p><a href="https://twitter.com/allison_horst"><img src="https://noahweidig.github.io/chartifyr/posts/welcome/images/tidyverse-01.png" class="img-fluid figure-img" alt="Artwork by @allison_horst"></a></p>
 <figcaption>Artwork by @allison_horst</figcaption>
 </figure>
 </div>
