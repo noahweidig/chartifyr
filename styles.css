@@ -352,13 +352,31 @@ div.callout {
 
 /* ---------- Mobile navbar ---------- */
 @media (max-width: 991.98px) {
-  /* Keep the brand (logo + title) visible alongside the toggler */
-  .navbar > .container-fluid {
+  /* Brand on the left, search + hamburger on the right, on one row */
+  .navbar .navbar-container {
     flex-wrap: nowrap;
+    align-items: center;
   }
 
+  /* Push everything after the brand to the right */
   .navbar .navbar-brand-container {
     margin-right: auto;
+    order: 0;
+  }
+
+  /* Compact search icon sits just left of the hamburger */
+  .navbar #quarto-search {
+    order: 1;
+    margin-right: 0.5rem;
+  }
+
+  /* Hamburger menu lives on the far right of the bar */
+  .navbar .navbar-toggler {
+    order: 2;
+  }
+
+  .navbar .navbar-collapse {
+    order: 3;
   }
 
   .navbar .navbar-title {
@@ -368,5 +386,25 @@ div.callout {
 
   .navbar-logo {
     max-height: 40px;
+  }
+
+  /* When the bar is too narrow, search is relocated into the open menu
+     (see _navbar-search.html) and shown with a "Search" label. */
+  .navbar-search-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+  }
+
+  .navbar-search-menu-item #quarto-search {
+    order: 0;
+    margin-right: 0;
+  }
+
+  .navbar-search-menu-label {
+    color: #1a1a2e;
+    font-weight: 500;
+    letter-spacing: 0.01em;
   }
 }

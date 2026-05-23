@@ -1745,4 +1745,53 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<script>
+// Move the navbar search into the hamburger menu when the bar is too narrow
+// for the standalone search icon. Restore it when there is room again.
+(function () {
+  var COLLAPSE_BELOW = 992; // matches `collapse-below: lg`
+  var NARROW_MAX = 400;     // below this width the icon no longer fits the bar
+
+  function refs() {
+    return {
+      search: document.getElementById("quarto-search"),
+      toggler: document.querySelector(".navbar .navbar-toggler"),
+      container: document.querySelector(".navbar .navbar-container"),
+      collapse: document.getElementById("navbarCollapse"),
+    };
+  }
+
+  function intoMenu(r) {
+    if (r.search.closest("#navbarCollapse")) return;
+    var item = document.createElement("div");
+    item.className = "nav-item navbar-search-menu-item";
+    var label = document.createElement("span");
+    label.className = "navbar-search-menu-label";
+    label.textContent = "Search";
+    item.appendChild(r.search);
+    item.appendChild(label);
+    var nav = r.collapse.querySelector(".navbar-nav");
+    (nav || r.collapse).appendChild(item);
+  }
+
+  function outOfMenu(r) {
+    var item = r.collapse.querySelector(".navbar-search-menu-item");
+    if (!item) return;
+    r.container.insertBefore(r.search, r.toggler);
+    item.remove();
+  }
+
+  function update() {
+    var r = refs();
+    if (!r.search || !r.toggler || !r.container || !r.collapse) return;
+    var w = window.innerWidth;
+    if (w < COLLAPSE_BELOW && w <= NARROW_MAX) intoMenu(r);
+    else outOfMenu(r);
+  }
+
+  window.addEventListener("resize", update);
+  if (document.readyState !== "loading") update();
+  else document.addEventListener("DOMContentLoaded", update);
+})();
+</script>
 </body></html>
