@@ -45,5 +45,16 @@
   window.addEventListener("resize", update);
   if (document.readyState !== "loading") update();
   else document.addEventListener("DOMContentLoaded", update);
+
+  // Close the expanded hamburger menu when clicking/tapping outside of it.
+  function closeOnOutsideClick(e) {
+    var collapse = document.getElementById("navbarCollapse");
+    var toggler = document.querySelector(".navbar .navbar-toggler");
+    if (!collapse || !toggler) return;
+    if (!collapse.classList.contains("show")) return;
+    if (collapse.contains(e.target) || toggler.contains(e.target)) return;
+    toggler.click(); // let Bootstrap run its collapse animation + aria state
+  }
+  document.addEventListener("click", closeOnOutsideClick);
 })();
 </script>
