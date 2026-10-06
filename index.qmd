@@ -1,5 +1,5 @@
 ---
-title: "ChartifyR"
+pagetitle: "ChartifyR"
 listing:
   contents: posts
   sort: "date desc"
@@ -11,11 +11,43 @@ listing:
   date-format: "MMM D, YYYY"
   fields: [image, date, title, subtitle, categories, description, reading-time]
 page-layout: full
-title-block-banner: true
+title-block-banner: false
 ---
 
-::: {.hero-intro}
-### ✨ R, Data Viz, and Ecological Storytelling
+```{=html}
+<section class="hero">
+  <div class="hero-text">
+    <span class="hero-eyebrow">R &middot; Data Viz &middot; Ecology</span>
+    <h1 class="hero-title">Turn data into <span class="hero-grad">clear, beautiful</span> charts.</h1>
+    <p class="hero-sub">Hands-on tutorials for publication-ready charts, maps, and data pipelines in R, from <code>ggplot2</code> and <code>sf</code> to tidy data wrangling.</p>
+    <div class="hero-cta">
+      <a class="hero-btn hero-btn-primary" href="#posts">Browse tutorials</a>
+      <a class="hero-btn hero-btn-ghost" href="about.html">About Noah</a>
+      <a class="hero-btn hero-btn-ghost" href="index.xml" aria-label="RSS feed">RSS</a>
+    </div>
+    <ul class="hero-tags">
+      <li>ggplot2</li><li>dplyr</li><li>tidyr</li><li>sf maps</li><li>palettes</li>
+    </ul>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <svg viewBox="0 0 320 260" role="img">
+      <defs>
+        <linearGradient id="hg1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#3d9e8a"/><stop offset="1" stop-color="#5b6abf"/></linearGradient>
+        <linearGradient id="hg2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5b6abf"/><stop offset="1" stop-color="#a855c7"/></linearGradient>
+      </defs>
+      <rect x="10" y="10" width="300" height="240" rx="22" class="hero-card"/>
+      <g class="hero-grid"><line x1="40" x2="290" y1="80" y2="80"/><line x1="40" x2="290" y1="130" y2="130"/><line x1="40" x2="290" y1="180" y2="180"/></g>
+      <rect x="50" y="150" width="34" height="40" rx="7" fill="url(#hg1)"/>
+      <rect x="100" y="115" width="34" height="75" rx="7" fill="url(#hg1)"/>
+      <rect x="150" y="85" width="34" height="105" rx="7" fill="url(#hg2)"/>
+      <rect x="200" y="60" width="34" height="130" rx="7" fill="url(#hg2)"/>
+      <rect x="250" y="95" width="34" height="95" rx="7" fill="url(#hg2)"/>
+      <polyline class="hero-line" points="67,140 117,105 167,72 217,50 267,84"/>
+      <g class="hero-dots"><circle cx="67" cy="140" r="5"/><circle cx="117" cy="105" r="5"/><circle cx="167" cy="72" r="5"/><circle cx="217" cy="50" r="5"/><circle cx="267" cy="84" r="5"/></g>
+      <line x1="40" x2="290" y1="190" y2="190" class="hero-axis"/>
+    </svg>
+  </div>
+</section>
+```
 
-Hands-on tutorials for building publication-ready charts, maps, and data pipelines in R — from `ggplot2` and `sf` to tidy data wrangling. Browse recent posts or filter by category to find what you need.
-:::
+## Latest tutorials {#posts}
