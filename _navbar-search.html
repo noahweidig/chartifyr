@@ -57,4 +57,18 @@
   }
   document.addEventListener("click", closeOnOutsideClick);
 })();
+
+// Move share buttons from after the footer to the end of the article.
+(function () {
+  function place() {
+    var share = document.querySelector(".social-share");
+    var main = document.querySelector("main.content, #quarto-document-content");
+    if (!share || !main) return;
+    var wrap = share.parentElement;
+    main.appendChild(share);
+    if (wrap && wrap !== main && !wrap.children.length) wrap.remove();
+  }
+  if (document.readyState !== "loading") place();
+  else document.addEventListener("DOMContentLoaded", place);
+})();
 </script>

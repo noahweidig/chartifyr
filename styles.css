@@ -17,7 +17,11 @@
   --shadow-md:     0 4px 14px rgba(0,0,0,0.08);
   --shadow-lg:     0 8px 28px rgba(0,0,0,0.11);
   --transition:    0.25s cubic-bezier(.4,0,.2,1);
+  --nav-ink:       #1a1a2e;
 }
+
+/* Same navbar height in light and dark (darkly defaults to 1rem) */
+.navbar { --bs-navbar-padding-y: 0.5rem; }
 
 /* ---------- Global ---------- */
 body {
@@ -328,9 +332,28 @@ code {
 
 /* ---------- Footer ---------- */
 .nav-footer {
+  margin-top: 4rem;
+  padding: 2.5rem 1.5rem;
   border-top: 1px solid var(--border);
-  font-size: 0.85rem;
+  background:
+    radial-gradient(500px 160px at 0% 100%, rgba(61,158,138,0.10), transparent 70%),
+    radial-gradient(500px 160px at 100% 100%, rgba(168,85,199,0.08), transparent 70%),
+    var(--surface-alt);
+  font-size: 0.9rem;
   color: var(--text-secondary);
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+.nav-footer .nav-footer-left strong { color: var(--text-primary); font-size: 1.1rem; }
+.nav-footer .nav-footer-center { text-align: center; }
+.nav-footer .nav-footer-right { text-align: right; }
+.nav-footer a { color: var(--text-secondary); text-decoration: none; transition: color var(--transition); }
+.nav-footer a:hover { color: var(--accent); }
+.nav-footer .bi { font-size: 1.25rem; margin: 0 0.3rem; }
+.footer-copy { font-size: 0.8rem; opacity: 0.85; }
+@media (max-width: 767.98px) {
+  .nav-footer { flex-direction: column; align-items: center; text-align: center; }
+  .nav-footer .nav-footer-left, .nav-footer .nav-footer-center, .nav-footer .nav-footer-right { text-align: center; }
 }
 
 /* ---------- Callout blocks ---------- */
@@ -394,10 +417,18 @@ div.callout {
     outline: none !important;
   }
 
-  /* Menu always wraps onto its own full-width row beneath the bar. */
+  /* Menu overlays the page (no layout shift) beneath the bar. */
   .navbar .navbar-collapse {
-    flex-basis: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     width: 100%;
+    padding: 0.5rem 1rem 1rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    z-index: 1030;
   }
 
   /* ----- Hamburger that morphs into an X (no layout shift) ----- */
@@ -408,7 +439,7 @@ div.callout {
     height: 1.4rem;
     display: inline-block;
     /* middle bar */
-    background: linear-gradient(#1a1a2e, #1a1a2e) center / 100% 2px no-repeat;
+    background: linear-gradient(var(--nav-ink), var(--nav-ink)) center / 100% 2px no-repeat;
     transition: background var(--transition);
   }
 
@@ -419,7 +450,7 @@ div.callout {
     left: 0;
     right: 0;
     height: 2px;
-    background: #1a1a2e;
+    background: var(--nav-ink);
     border-radius: 2px;
     transition: transform var(--transition), top var(--transition);
   }
@@ -454,7 +485,7 @@ div.callout {
   }
 
   .navbar-search-menu-label {
-    color: #1a1a2e;
+    color: var(--nav-ink);
     font-weight: 500;
     letter-spacing: 0.01em;
   }
@@ -534,6 +565,7 @@ body.quarto-dark {
   --accent-light:  #6f7bd0;
   --accent-teal:   #5fcfb8;
   --accent-bg:     #272b4a;
+  --nav-ink:       #f2f3fa;
   --surface:       #16181f;
   --surface-alt:   #1e212b;
   --text-primary:  #e8e9f2;
@@ -703,3 +735,28 @@ body.quarto-dark .hero-btn-ghost { color: var(--text-primary) !important; }
 .social-share a.bsky { border-color: #1185fe; color: #1185fe; }
 .social-share a.bsky:hover { background: #1185fe; color: #fff; }
 body.quarto-dark .social-share a { background: var(--surface-alt); }
+
+/* Share buttons: centered under article text */
+.social-share { justify-content: center; grid-column: body-content-start / body-content-end; }
+.social-share a { margin: 0 0.25rem 1em; }
+#mc_embed_signup input.email { width: 100% !important; min-width: 0; max-width: 100%; box-sizing: border-box; }
+
+/* ---------- Custom scrollbar (TOC / margin sidebar) ---------- */
+#quarto-margin-sidebar,
+#TOC {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-light) transparent;
+}
+#quarto-margin-sidebar::-webkit-scrollbar,
+#TOC::-webkit-scrollbar { width: 8px; height: 8px; }
+#quarto-margin-sidebar::-webkit-scrollbar-track,
+#TOC::-webkit-scrollbar-track { background: transparent; }
+#quarto-margin-sidebar::-webkit-scrollbar-thumb,
+#TOC::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-teal), var(--accent));
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+#quarto-margin-sidebar::-webkit-scrollbar-thumb:hover,
+#TOC::-webkit-scrollbar-thumb:hover { background-clip: border-box; }
