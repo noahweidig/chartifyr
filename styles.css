@@ -740,3 +740,23 @@ body.quarto-dark .social-share a { background: var(--surface-alt); }
 .social-share { justify-content: center; grid-column: body-content-start / body-content-end; }
 .social-share a { margin: 0 0.25rem 1em; }
 #mc_embed_signup input.email { width: 100% !important; min-width: 0; max-width: 100%; box-sizing: border-box; }
+
+/* ---------- Custom scrollbar (TOC / margin sidebar) ---------- */
+#quarto-margin-sidebar,
+#TOC {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-light) transparent;
+}
+#quarto-margin-sidebar::-webkit-scrollbar,
+#TOC::-webkit-scrollbar { width: 8px; height: 8px; }
+#quarto-margin-sidebar::-webkit-scrollbar-track,
+#TOC::-webkit-scrollbar-track { background: transparent; }
+#quarto-margin-sidebar::-webkit-scrollbar-thumb,
+#TOC::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-teal), var(--accent));
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+#quarto-margin-sidebar::-webkit-scrollbar-thumb:hover,
+#TOC::-webkit-scrollbar-thumb:hover { background-clip: border-box; }
