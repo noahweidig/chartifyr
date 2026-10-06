@@ -11,6 +11,8 @@ description: "Learn the fundamentals of ggplot2 — from basic histograms to col
 toc: true
 toc-depth: 2
 code-fold: show
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/ggplot-basics/"
 ---
 
 [![Artwork by \@allison_horst](images/ggplot.png)](https://twitter.com/allison_horst)

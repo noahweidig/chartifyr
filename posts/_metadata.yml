@@ -9,3 +9,15 @@ title-block-banner: true
 
 # Code defaults
 code-tools: true
+
+# Share buttons (schochastics/quarto-social-share); each post sets share.permalink
+filters:
+  - social-share
+share:
+  twitter: true
+  linkedin: true
+  bsky: true
+  mastodon: true
+  reddit: true
+  facebook: true
+  email: true

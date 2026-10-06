@@ -11,6 +11,8 @@ description: "Master color palettes in ggplot2 — from viridis and RColorBrewer
 toc: true
 toc-depth: 2
 code-fold: show
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/palettes/"
 ---
 
 Color can make or break a figure. The right palette draws attention to the story in your data; the wrong one buries it under visual noise. In this post we will walk through the major palette ecosystems available in R, learn when to reach for each one, and pick up practical rules that keep figures readable, accessible, and honest.

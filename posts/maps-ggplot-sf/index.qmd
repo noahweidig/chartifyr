@@ -11,6 +11,8 @@ description: "Create beautiful maps in R using ggplot2 and the sf package — fr
 toc: true
 toc-depth: 2
 code-fold: show
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/maps-ggplot-sf/"
 ---
 
 [![Artwork by \@allison_horst](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F077ba65d-1d4e-431d-b719-bda847313d1a_1485x1122.jpeg)](https://twitter.com/allison_horst)

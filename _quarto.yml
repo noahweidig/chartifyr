@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - rss.xsl
+  post-render: add-rss-style.ts
 
 website:
   title: "ChartifyR"
@@ -41,7 +44,9 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: darkly
     mainfont: "Inter"
     monofont: "JetBrains Mono"
     fontsize: 1.02rem

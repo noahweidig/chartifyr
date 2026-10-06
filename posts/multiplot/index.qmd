@@ -11,6 +11,8 @@ execute:
 toc: true
 toc-depth: 2
 code-fold: show
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/multiplot/"
 ---
 
 One plot is rarely enough. Whether you are comparing species across islands, aligning a scatter plot next to a box plot, or building a manuscript figure with labeled panels, multi-panel layouts are a daily tool in data visualization. R gives you two broad strategies: **faceting** (splitting one plot by a variable) and **plot composition** (gluing separate plots together). This post covers both, using the Palmer Penguins dataset throughout.
