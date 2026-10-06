@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - rss.xsl
+  post-render: add-rss-style.ts
 
 website:
   title: "ChartifyR"
