@@ -332,9 +332,28 @@ code {
 
 /* ---------- Footer ---------- */
 .nav-footer {
+  margin-top: 4rem;
+  padding: 2.5rem 1.5rem;
   border-top: 1px solid var(--border);
-  font-size: 0.85rem;
+  background:
+    radial-gradient(500px 160px at 0% 100%, rgba(61,158,138,0.10), transparent 70%),
+    radial-gradient(500px 160px at 100% 100%, rgba(168,85,199,0.08), transparent 70%),
+    var(--surface-alt);
+  font-size: 0.9rem;
   color: var(--text-secondary);
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+.nav-footer .nav-footer-left strong { color: var(--text-primary); font-size: 1.1rem; }
+.nav-footer .nav-footer-center { text-align: center; }
+.nav-footer .nav-footer-right { text-align: right; }
+.nav-footer a { color: var(--text-secondary); text-decoration: none; transition: color var(--transition); }
+.nav-footer a:hover { color: var(--accent); }
+.nav-footer .bi { font-size: 1.25rem; margin: 0 0.3rem; }
+.footer-copy { font-size: 0.8rem; opacity: 0.85; }
+@media (max-width: 767.98px) {
+  .nav-footer { flex-direction: column; align-items: center; text-align: center; }
+  .nav-footer .nav-footer-left, .nav-footer .nav-footer-center, .nav-footer .nav-footer-right { text-align: center; }
 }
 
 /* ---------- Callout blocks ---------- */

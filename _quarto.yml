@@ -39,8 +39,16 @@ website:
   open-graph: true
   twitter-card: true
   page-footer:
-    left: "Built with [Quarto](https://quarto.org/) by Noah Weidig"
-    right: "&copy; 2026 ChartifyR"
+    border: false
+    left: |
+      **ChartifyR**<br>
+      R, data viz, and ecological storytelling.<br>
+      <span class="footer-copy">&copy; 2026 Noah Weidig</span>
+    center: |
+      [Home](index.qmd) &middot; [About](about.qmd) &middot; [RSS](index.xml)
+    right: |
+      <a href="https://github.com/noahweidig/" aria-label="GitHub"><i class="bi bi-github"></i></a> <a href="https://linkedin.com/in/noahweidig/" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a> <a href="index.xml" aria-label="RSS"><i class="bi bi-rss-fill"></i></a><br>
+      <span class="footer-copy">Built with [Quarto](https://quarto.org/)</span>
 
 format:
   html:
