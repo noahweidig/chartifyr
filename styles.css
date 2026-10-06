@@ -696,3 +696,10 @@ body.quarto-dark .hero { background:
   var(--surface-alt); }
 body.quarto-dark .hero-grad { background: linear-gradient(135deg, #5fcfb8 0%, #9aa5f0 50%, #c79bf0 100%); -webkit-background-clip: text; background-clip: text; }
 body.quarto-dark .hero-btn-ghost { color: var(--text-primary) !important; }
+
+/* ---------- Social share buttons ---------- */
+.social-share { margin: 2rem 0 1rem; }
+.social-share a { background: var(--surface); }
+.social-share a.bsky { border-color: #1185fe; color: #1185fe; }
+.social-share a.bsky:hover { background: #1185fe; color: #fff; }
+body.quarto-dark .social-share a { background: var(--surface-alt); }

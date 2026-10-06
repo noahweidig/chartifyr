@@ -5,6 +5,8 @@ date: "2025-02-10"
 categories: [news]
 image: "images/tidyverse-01.png"
 description: "Introducing ChartifyR — a space for sharing data science and visualization techniques using R and the tidyverse."
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/welcome/"
 ---
 
 I'm excited to share my knowledge of data science and visualization using R, specifically the `tidyverse` suite of packages, as well as other languages and tools.

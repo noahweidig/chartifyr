@@ -11,6 +11,8 @@ description: "Learn how to combine datasets with dplyr joins — left_join, inne
 toc: true
 toc-depth: 2
 code-fold: show
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/dplyr-joins/"
 ---
 
 Combining two datasets sounds simple — until you get back twice as many rows as you expected, or half your data vanishes. Joins are one of the most useful operations in data analysis, but they're also one of the easiest places to introduce silent bugs. This tutorial will walk you through the main dplyr join functions, show you exactly what each one does, and teach you how to spot problems before they ruin your analysis.

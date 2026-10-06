@@ -11,6 +11,8 @@ description: "Learn how to reshape, split, and clean messy data using tidyr and 
 toc: true
 toc-depth: 2
 code-fold: show
+share:
+  permalink: "https://noahweidig.github.io/chartifyr/posts/data-cleaning-tidyr-stringr/"
 ---
 
 [![Artwork by \@allison_horst](images/tidyr.jpg)](https://twitter.com/allison_horst)
